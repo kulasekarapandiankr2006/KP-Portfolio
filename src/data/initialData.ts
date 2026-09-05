@@ -432,7 +432,7 @@ export const initialPortfolioData: PortfolioDatabase = {
       zipFileName: "RE-Sensor-IQ.zip",
       zipFileSize: 1420000,
       entryPoint: "landing/index.html",
-      runtimeUrl: "http://localhost:5000/runtime/re-sensor-iq/landing/index.html",
+      runtimeUrl: "/runtime/re-sensor-iq/landing/index.html",
       
       published: true,
       featured: true,

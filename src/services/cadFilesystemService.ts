@@ -3,7 +3,7 @@
 // server/data/storage/mechanical-designs/<slug>/files/
 // server/data/storage/mechanical-designs/<slug>/thumbnail/<slug>.png
 
-const RUNTIME_HOST = 'http://localhost:5000';
+const RUNTIME_HOST = import.meta.env.DEV ? 'http://localhost:5000' : '';
 
 export interface ScannedCadFile {
   id: string;
@@ -59,7 +59,7 @@ export const cadFilesystemService = {
    */
   async scanMechanicalDesign(slug: string): Promise<ScanMechanicalResult> {
     try {
-      const res = await fetch(`${RUNTIME_HOST}/api/mechanical/scan/${encodeURIComponent(slug)}`);
+      const res = await fetch(`${RUNTIME_HOST}/api/mechanical/${encodeURIComponent(slug)}`);
       if (!res.ok) {
         return {
           exists: false,

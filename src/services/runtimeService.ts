@@ -23,7 +23,7 @@ export interface ScanProjectResult {
 
 export const runtimeService = {
   /**
-   * Checks if the local Express runtime server is active on port 5000
+   * Checks if the Express runtime server is active
    */
   async checkHealth(): Promise<boolean> {
     try {
@@ -48,7 +48,7 @@ export const runtimeService = {
   },
 
   /**
-   * Automatically initializes the local project directory on disk:
+   * Initializes the project directory on the runtime server:
    * server/data/storage/projects/<slug>/
    */
   async createProject(projectSlug: string): Promise<{ success: boolean; diskPath?: string; error?: string }> {
@@ -70,7 +70,7 @@ export const runtimeService = {
   },
 
   /**
-   * Checks if the Express server already has project files on disk for this slug
+   * Checks if the runtime server already has project files for this slug
    */
   async checkServerHasProject(projectSlug: string): Promise<boolean> {
     try {
@@ -82,7 +82,7 @@ export const runtimeService = {
   },
 
   /**
-   * Scans the on-disk directory in server/data/storage/projects/<slug>/
+   * Scans the project directory on the runtime server:
    * Detects all index.html entry candidates, file sizes, and builds the file tree.
    */
   async scanServerProject(projectSlug: string): Promise<ScanProjectResult> {
@@ -112,7 +112,7 @@ export const runtimeService = {
   },
 
   /**
-   * Ensures that a project is available on the Express runtime server
+   * Ensures that a project is available on the runtime server
    */
   async ensureProjectReady(projectSlug: string): Promise<boolean> {
     const isHealthy = await this.checkHealth();
@@ -121,7 +121,7 @@ export const runtimeService = {
   },
 
   /**
-   * Deletes a project from the Express runtime server on disk
+   * Deletes a project from the runtime server
    */
   async deleteProjectOnServer(projectSlug: string): Promise<void> {
     try {

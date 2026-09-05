@@ -170,7 +170,7 @@ export const ProjectRuntimePage: React.FC = () => {
             <div className="flex items-center gap-1">
               <span className={`w-2 h-2 rounded-full ${serverOnline ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'}`} />
               <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
-                {serverOnline ? 'PORT 5000 LIVE' : 'OFFLINE'}
+                {serverOnline ? 'RUNTIME LIVE' : 'OFFLINE'}
               </span>
             </div>
           </div>
@@ -180,7 +180,7 @@ export const ProjectRuntimePage: React.FC = () => {
             {checkingServer ? (
               <div className="flex-1 flex flex-col items-center justify-center space-y-3 p-8">
                 <RefreshCw className="w-8 h-8 animate-spin text-cyan-400" />
-                <p className="text-xs font-mono text-slate-400">Connecting to Express Static Runtime (port 5000)...</p>
+                <p className="text-xs font-mono text-slate-400">Connecting to Express Static Runtime...</p>
               </div>
             ) : serverOnline ? (
               <iframe
@@ -198,14 +198,14 @@ export const ProjectRuntimePage: React.FC = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <h3 className="text-base font-bold text-white">Local Runtime Server Unavailable</h3>
+                    <h3 className="text-base font-bold text-white">Runtime Server Unavailable</h3>
                     <p className="text-xs font-mono text-rose-300">
-                      Could not connect to <code className="text-cyan-300">http://localhost:5000</code>
+                      Could not connect to the portfolio runtime server.
                     </p>
                   </div>
 
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    Please ensure the local runtime backend is started. Run <code className="text-amber-300 font-mono px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">npm run dev</code> in your project directory.
+                    Please ensure the runtime backend is running and reachable, then retry the connection.
                   </p>
 
                   <div className="pt-2 flex items-center justify-center gap-3">
