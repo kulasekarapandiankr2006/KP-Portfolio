@@ -1363,7 +1363,7 @@
       "cadFiles": [],
       "drawings": [],
       "published": true,
-      "featured": false,
+      "featured": true,
       "displayOrder": 7
     }
   ],
