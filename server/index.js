@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
@@ -47,6 +48,62 @@ function loadCmsData() {
 function saveCmsData(data) {
   ensureDir(CMS_DATA_DIR);
   fs.writeFileSync(CMS_DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
+async function syncCmsDataToGitHub(data) {
+  const token = process.env.GITHUB_TOKEN;
+  const owner = process.env.GITHUB_OWNER;
+  const repo = process.env.GITHUB_REPO;
+  const branch = process.env.GITHUB_BRANCH || 'main';
+
+  if (!token || !owner || !repo) {
+    console.warn('[GitHub] Sync skipped: GitHub environment variables are missing.');
+    return;
+  }
+
+  const filePath = 'server/data/portfolio-cms.json';
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+
+  let sha;
+
+  const existing = await fetch(`${apiUrl}?ref=${encodeURIComponent(branch)}`, {
+    headers,
+  });
+
+  if (existing.ok) {
+    const existingData = await existing.json();
+    sha = existingData.sha;
+  } else if (existing.status !== 404) {
+    throw new Error(`GitHub file lookup failed: ${existing.status}`);
+  }
+
+  const content = Buffer
+    .from(JSON.stringify(data, null, 2), 'utf8')
+    .toString('base64');
+
+  const response = await fetch(apiUrl, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify({
+      message: 'Update portfolio CMS data',
+      content,
+      branch,
+      ...(sha ? { sha } : {}),
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`GitHub sync failed: ${response.status} ${errorText}`);
+  }
+
+  console.log('[GitHub] CMS data synced successfully.');
 }
 
 // Safe slug validation helper
@@ -137,13 +194,14 @@ app.get('/api/cms/data', (req, res) => {
 });
 
 // POST /api/cms/data — save full portfolio database to server filesystem
-app.post('/api/cms/data', (req, res) => {
+app.post('/api/cms/data', async (req, res) => {
   try {
     const body = req.body;
     if (!body || !body.profile || !Array.isArray(body.projects)) {
       return res.status(400).json({ error: 'Invalid CMS data payload' });
     }
     saveCmsData(body);
+    await syncCmsDataToGitHub(body);
     res.json({ success: true });
   } catch (err) {
     console.error('[CMS] POST error:', err);
@@ -1350,7 +1408,7 @@ body {
 seedInitialProjects();
 
 // Start Server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
   console.log(`🚀 Express Static Runtime Server running on Port ${PORT}`);
   console.log(`📡 Health endpoint: http://localhost:${PORT}/health`);
