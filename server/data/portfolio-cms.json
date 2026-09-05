@@ -188,6 +188,81 @@
   ],
   "projects": [
     {
+      "id": "proj-5",
+      "slug": "re-sensor-iq",
+      "title": "RE-Sensor IQ",
+      "tagline": "Industrial Telemetry, CAN FD Stream & Edge-AI Predictive Anomaly Detection",
+      "description": "An intelligent industrial multi-sensor telemetry dashboard and edge anomaly detection platform. Monitors high-frequency 3-axis vibration FFT peaks, temperature gradients, CAN bus packet streams, and predicts mechanical wear on industrial machines in real time.",
+      "category": "IoT & Industrial",
+      "year": "2024",
+      "role": "Lead Systems & Firmware Engineer",
+      "duration": "4 Months",
+      "organization": "Industrial Mechatronics Lab",
+      "team": "Solo Project",
+      "problem": "Traditional factory vibration and temperature telemetry systems are isolated in proprietary SCADA silos with high latency and lack real-time edge anomaly classification.",
+      "objective": "Engineer a high-speed CAN FD sensor telemetry aggregator and responsive Web HMI dashboard capable of streaming 1000 Hz accelerometer data with sub-millisecond loop times.",
+      "approach": "Integrated BNO085 9-DOF IMU and high-precision temperature sensors with STM32 CAN FD transceiver; built a lightweight high-framerate HTML5/Canvas telemetry frontend served directly at the edge.",
+      "features": [
+        "1000 Hz real-time 3-axis accelerometer waveform streaming using HTML5 Canvas",
+        "CAN FD 1 Mbps packet inspector and live circular log terminal",
+        "Edge-computed FFT vibration peak and anomaly score classification",
+        "Full responsive industrial telemetry dashboard with live metric gauges"
+      ],
+      "results": [
+        "Sustained 1000 Hz streaming rate with zero packet drops over 100+ continuous hours.",
+        "Detected simulated bearing imbalance within 12 ms of anomaly onset."
+      ],
+      "technologies": [
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "CAN FD",
+        "STM32",
+        "BNO085",
+        "WebSockets",
+        "Canvas API"
+      ],
+      "programmingLanguages": [
+        "JavaScript",
+        "C",
+        "C++",
+        "Python"
+      ],
+      "frameworks": [
+        "Canvas API",
+        "Chart.js",
+        "Express"
+      ],
+      "hardware": [
+        "STM32G4 Microcontroller",
+        "BNO085 9-DOF IMU",
+        "MCP2542 CAN FD Transceiver"
+      ],
+      "sensors": [
+        "BNO085 9-DOF IMU",
+        "NTC Thermistor",
+        "Current Shunt"
+      ],
+      "tools": [
+        "Saleae Logic Pro",
+        "SolidWorks",
+        "Oscilloscope"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/re-sensor-iq",
+      "thumbnail": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "RE-Sensor-IQ.zip",
+      "zipFileSize": 1420000,
+      "entryPoint": "landing/index.html",
+      "runtimeUrl": "http://localhost:5000/runtime/re-sensor-iq/landing/index.html",
+      "published": true,
+      "featured": true,
+      "displayOrder": 1
+    },
+    {
       "id": "proj-1",
       "slug": "quadruped-dynamic-robot",
       "title": "Agile Quadruped Legged Robot",
