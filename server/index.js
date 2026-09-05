@@ -52,6 +52,10 @@ function loadCmsData() {
   return null;
 }
 
+function saveCmsData(data) {
+  ensureDir(CMS_DATA_DIR);
+  fs.writeFileSync(CMS_DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
 // Safe slug validation helper
 function isValidSlug(slug) {
   return typeof slug === 'string' && /^[a-zA-Z0-9_-]+$/.test(slug) && !slug.includes('..');
@@ -177,6 +181,13 @@ app.post('/api/cms/data', async (req, res) => {
       'application/json'
     );
 
+    // Ensure every CMS project has a persistent B2 prefix.
+    // This keeps Admin-created projects compatible with manual file placement.
+    for (const project of body.projects) {
+      if (project?.slug && isValidSlug(project.slug)) {
+        await uploadToB2(`projects/${project.slug}/.keep`, Buffer.alloc(0), 'application/octet-stream');
+      }
+    }
 
     res.json({ success: true });
   } catch (err) {
@@ -355,7 +366,7 @@ function scanDirectoryOnDisk(dirPath, rootDir, currentDepth = 0) {
   return { nodes, indexCandidates, totalFiles, totalBytes };
 }
 
-// --- CREATE PROJECT DIRECTORY ON DISK ---
+// --- CREATE PROJECT DIRECTORY IN B2 + LOCAL FALLBACK ---
 app.post('/api/runtime/create-project', async (req, res) => {
   try {
     const slug = req.body?.slug || req.query?.slug;
@@ -580,6 +591,30 @@ app.delete('/api/runtime/:projectSlug', async (req, res) => {
 
     if (fs.existsSync(projectDir)) {
       fs.rmSync(projectDir, { recursive: true, force: true });
+    }
+
+    // Remove the project metadata from persistent CMS data as well.
+    let cms = null;
+    try {
+      const result = await getFromB2(B2_CMS_KEY);
+      const chunks = [];
+      for await (const chunk of result.Body) chunks.push(chunk);
+      cms = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    } catch {
+      cms = loadCmsData();
+    }
+
+    if (cms && Array.isArray(cms.projects)) {
+      const filteredProjects = cms.projects.filter(item => item?.slug !== projectSlug);
+      if (filteredProjects.length !== cms.projects.length) {
+        cms.projects = filteredProjects;
+        saveCmsData(cms);
+        await uploadToB2(
+          B2_CMS_KEY,
+          Buffer.from(JSON.stringify(cms, null, 2), 'utf8'),
+          'application/json'
+        );
+      }
     }
 
     res.json({
@@ -1050,196 +1085,112 @@ await uploadToB2(
   }
 });
 
-// 2. Scan mechanical design directory (B2-first, local fallback)
-app.get('/api/mechanical/scan/:slug', async (req, res) => {
+// 2. Scan mechanical design directory (detects manual placement & admin uploads identically)
+app.get('/api/mechanical/:slug', async (req, res) => {
   try {
-    const { slug } = req.params;
+        const b2Result = await listB2Files(`mechanical-designs/${slug}/files/`);
 
-    if (!isValidSlug(slug)) {
-      return res.status(400).json({
-        error: 'Invalid mechanical design slug identifier'
+    if (b2Result.Contents?.some(
+      item => item.Key &&
+        !item.Key.endsWith('/.keep') &&
+        !item.Key.endsWith('/')
+    )) {
+      const cadFiles = b2Result.Contents
+        .filter(item =>
+          item.Key &&
+          !item.Key.endsWith('/.keep') &&
+          !item.Key.endsWith('/')
+        )
+        .map(item => {
+          const name = item.Key.split('/').pop();
+
+          return {
+            id: `cad-${name}`,
+            name,
+            format: detectCadFormat(name),
+            size: formatBytes(item.Size || 0),
+            sizeBytes: item.Size || 0,
+            downloadUrl: `/api/mechanical/${slug}/file/${encodeURIComponent(name)}`,
+          };
+        });
+
+      return res.json({
+        exists: true,
+        slug,
+        cadFiles,
+        hasThumbnail: false,
+        thumbnailFileName: null,
+        thumbnailUrl: null,
+        filesDir,
+        thumbnailDir,
       });
+    }
+    const { slug } = req.params;
+    if (!isValidSlug(slug)) {
+      return res.status(400).json({ error: 'Invalid mechanical design slug identifier' });
     }
 
     const designDir = path.resolve(MECH_STORAGE_DIR, slug);
     const filesDir = path.join(designDir, 'files');
     const thumbnailDir = path.join(designDir, 'thumbnail');
 
-    // ---------------------------------------------------------
-    // B2 FIRST
-    // ---------------------------------------------------------
-    try {
-      const prefix = `mechanical-designs/${slug}/`;
-      const b2Result = await listB2Files(prefix);
-      const objects = b2Result.Contents || [];
-
-      const cadObjects = objects.filter(item => {
-        const key = item.Key || '';
-        const relative = key.slice(prefix.length);
-
-        return (
-          relative.startsWith('files/') &&
-          !relative.endsWith('/') &&
-          !path.basename(relative).startsWith('.')
-        );
-      });
-
-      const thumbnailObjects = objects.filter(item => {
-        const key = item.Key || '';
-        const relative = key.slice(prefix.length);
-
-        return (
-          relative.startsWith('thumbnail/') &&
-          !relative.endsWith('/') &&
-          /\.(png|jpe?g|webp|svg)$/i.test(relative)
-        );
-      });
-
-      const cadFiles = cadObjects.map(item => {
-        const name = path.basename(item.Key);
-
-        return {
-          id: `cad-${name}`,
-          name,
-          format: detectCadFormat(name),
-          size: formatBytes(item.Size || 0),
-          sizeBytes: item.Size || 0,
-          downloadUrl:
-            `/api/mechanical/${slug}/file/${encodeURIComponent(name)}`
-        };
-      });
-
-      const exactThumbnail = thumbnailObjects.find(item =>
-        path.basename(item.Key).toLowerCase() ===
-        `${slug.toLowerCase()}.png`
-      );
-
-      const thumbnailObject =
-        exactThumbnail ||
-        thumbnailObjects[0] ||
-        null;
-
-      const hasB2Data =
-        cadFiles.length > 0 ||
-        Boolean(thumbnailObject);
-
-      if (hasB2Data) {
-        return res.json({
-          exists: true,
-          slug,
-          cadFiles,
-          hasThumbnail: Boolean(thumbnailObject),
-          thumbnailFileName: thumbnailObject
-            ? path.basename(thumbnailObject.Key)
-            : null,
-          thumbnailUrl: thumbnailObject
-            ? `/api/mechanical/${slug}/thumbnail`
-            : null,
-          filesDir,
-          thumbnailDir,
-          storage: 'b2'
-        });
-      }
-    } catch (b2Err) {
-      console.warn(
-        `[B2 Mechanical Scan] Falling back to local storage for ${slug}:`,
-        b2Err.message
-      );
-    }
-
-    // ---------------------------------------------------------
-    // LOCAL FILESYSTEM FALLBACK
-    // ---------------------------------------------------------
     if (!fs.existsSync(designDir)) {
       return res.json({
         exists: false,
         slug,
         cadFiles: [],
         hasThumbnail: false,
-        thumbnailFileName: null,
         thumbnailUrl: null,
-        filesDir,
-        thumbnailDir,
-        storage: 'local'
       });
     }
 
-    // Scan CAD files
+    // Scan CAD files in files/
     const cadFiles = [];
-
     if (fs.existsSync(filesDir)) {
-      const entries = fs.readdirSync(filesDir, {
-        withFileTypes: true
-      });
-
+      const entries = fs.readdirSync(filesDir, { withFileTypes: true });
       for (const entry of entries) {
         if (entry.isFile() && !entry.name.startsWith('.')) {
           const filePath = path.join(filesDir, entry.name);
           const stat = fs.statSync(filePath);
-
           cadFiles.push({
             id: `cad-${entry.name}`,
             name: entry.name,
             format: detectCadFormat(entry.name),
             size: formatBytes(stat.size),
             sizeBytes: stat.size,
-            downloadUrl:
-              `/api/mechanical/${slug}/file/${encodeURIComponent(entry.name)}`
+            downloadUrl: `/api/mechanical/${slug}/file/${encodeURIComponent(entry.name)}`,
           });
         }
       }
     }
 
-    // Scan thumbnail
+    // Scan thumbnail in thumbnail/ (looks for <slug>.png, or any valid image file)
     let hasThumbnail = false;
     let thumbnailFileName = null;
-
     if (fs.existsSync(thumbnailDir)) {
-      const tEntries = fs.readdirSync(thumbnailDir, {
-        withFileTypes: true
-      });
-
-      const exactPng = tEntries.find(
-        entry =>
-          entry.isFile() &&
-          entry.name.toLowerCase() === `${slug.toLowerCase()}.png`
-      );
-
-      const imgEntry =
-        exactPng ||
-        tEntries.find(
-          entry =>
-            entry.isFile() &&
-            /\.(png|jpe?g|webp|svg)$/i.test(entry.name)
-        );
-
+      const tEntries = fs.readdirSync(thumbnailDir, { withFileTypes: true });
+      // Prioritize <slug>.png
+      const exactPng = tEntries.find(e => e.isFile() && e.name.toLowerCase() === `${slug.toLowerCase()}.png`);
+      const imgEntry = exactPng || tEntries.find(e => e.isFile() && /\.(png|jpe?g|webp|svg)$/i.test(e.name));
       if (imgEntry) {
         hasThumbnail = true;
         thumbnailFileName = imgEntry.name;
       }
     }
 
-    return res.json({
+    res.json({
       exists: true,
       slug,
       cadFiles,
       hasThumbnail,
       thumbnailFileName,
-      thumbnailUrl: hasThumbnail
-        ? `/api/mechanical/${slug}/thumbnail`
-        : null,
+      thumbnailUrl: hasThumbnail ? `/api/mechanical/${slug}/thumbnail` : null,
       filesDir,
       thumbnailDir,
-      storage: 'local'
     });
-
   } catch (err) {
     console.error('Error scanning mechanical design:', err);
-
-    return res.status(500).json({
-      error: 'Failed to scan mechanical design',
-      message: err.message
-    });
+    res.status(500).json({ error: 'Failed to scan mechanical design', message: err.message });
   }
 });
 
@@ -1356,6 +1307,67 @@ if (!fs.existsSync(targetPath) || fs.statSync(targetPath).isDirectory()) {
   } catch (err) {
     console.error('Error downloading CAD file:', err);
     if (!res.headersSent) res.status(500).send('Server error');
+  }
+});
+
+// 5. Delete the entire mechanical design (metadata + all B2/local files)
+app.delete('/api/mechanical/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    if (!isValidSlug(slug)) {
+      return res.status(400).json({ error: 'Invalid mechanical design slug identifier' });
+    }
+
+    const prefix = `mechanical-designs/${slug}/`;
+    const b2Response = await listB2Files(prefix);
+    const b2Objects = (b2Response.Contents || [])
+      .map(item => item.Key)
+      .filter(Boolean);
+
+    for (const key of b2Objects) {
+      await deleteFromB2(key);
+    }
+
+    const designDir = path.resolve(MECH_STORAGE_DIR, slug);
+    if (fs.existsSync(designDir)) {
+      fs.rmSync(designDir, { recursive: true, force: true });
+    }
+
+    // Remove the design from the persistent CMS database too.
+    let cms = null;
+    try {
+      const result = await getFromB2(B2_CMS_KEY);
+      const chunks = [];
+      for await (const chunk of result.Body) chunks.push(chunk);
+      cms = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    } catch {
+      cms = loadCmsData();
+    }
+
+    if (cms && Array.isArray(cms.mechanicalDesigns)) {
+      const before = cms.mechanicalDesigns.length;
+      cms.mechanicalDesigns = cms.mechanicalDesigns.filter(item => item?.slug !== slug);
+      if (cms.mechanicalDesigns.length !== before) {
+        saveCmsData(cms);
+        await uploadToB2(
+          B2_CMS_KEY,
+          Buffer.from(JSON.stringify(cms, null, 2), 'utf8'),
+          'application/json'
+        );
+      }
+    }
+
+    return res.json({
+      success: true,
+      slug,
+      deletedB2Objects: b2Objects.length,
+    });
+  } catch (err) {
+    console.error('[Mechanical Delete] Error:', err);
+    return res.status(500).json({
+      error: 'Failed to delete mechanical design',
+      message: err.message,
+    });
   }
 });
 
