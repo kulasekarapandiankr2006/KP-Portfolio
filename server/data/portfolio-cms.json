@@ -1374,13 +1374,6 @@
           "format": "SLDPRT",
           "size": "166.3 KB",
           "description": "Filesystem CAD Model (SLDPRT)"
-        },
-        {
-          "id": "cad-Key.SLDPRT",
-          "name": "Key.SLDPRT",
-          "format": "SLDPRT",
-          "size": "54.2 KB",
-          "description": "Filesystem CAD Model (SLDPRT)"
         }
       ],
       "drawings": [],
