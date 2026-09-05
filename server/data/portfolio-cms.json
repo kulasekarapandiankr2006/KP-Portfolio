@@ -1,0 +1,1961 @@
+{
+  "profile": {
+    "name": "Kulasekara Pandian K R",
+    "preferredName": "Kulasekara",
+    "title": "Mechatronics",
+    "subtitle": "Specializing in Autonomous Robotics, Embedded Firmware, Control Systems & Precision Mechanical CAD",
+    "statusBadge": "Available for Engineering Roles & Research",
+    "bio": [
+      "I am a passionate Mechatronics Engineer working at the intersection of precision mechanical design, embedded real-time firmware, and autonomous robotics software.",
+      "My engineering approach emphasizes mathematical modeling, rapid prototyping, and end-to-end hardware-software integration. From architecting high-torque cycloidal actuators in CAD to implementing state-space control algorithms on ARM Cortex-M microcontrollers and deploying ROS2 navigation stacks, I build robust, high-performance physical systems."
+    ],
+    "engineeringPhilosophy": "Hardware without software is static; software without hardware is abstract. True engineering mastery lies in the seamless synthesis of dynamics, circuits, and computation.",
+    "location": "Colombo, Sri Lanka (Open to Global Relocation / Remote)",
+    "email": "contact@kulasekarapandian.com",
+    "phone": "+94 77 123 4567",
+    "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=600&h=600&q=80",
+    "resumeUrl": "/resume.pdf",
+    "githubUrl": "https://github.com/kulasekarapandiankr2006",
+    "linkedinUrl": "https://www.linkedin.com/in/kulasekara-pandian-k-r/",
+    "youtubeUrl": "",
+    "cadPortfolioUrl": "",
+    "stats": [
+      {
+        "label": "Engineering Projects",
+        "value": "1",
+        "subtext": "Robotics, Embedded & CAD"
+      },
+      {
+        "label": "CAD Modeling Hours",
+        "value": "650",
+        "subtext": "SolidWorks & Fusion 360"
+      },
+      {
+        "label": "Hardware Platforms",
+        "value": "8+",
+        "subtext": "STM32, ESP32, FPGA, Jetson"
+      },
+      {
+        "label": "Research & Awards",
+        "value": "5",
+        "subtext": "Publications & Hackathons"
+      }
+    ]
+  },
+  "focusAreas": [
+    {
+      "id": "robotics-autonomy",
+      "title": "Robotics & Autonomy",
+      "subtitle": "ROS 2, SLAM & Motion Planning",
+      "description": "Developing autonomous mobile robots (AMRs), inverse kinematics for multi-DOF manipulators, LiDAR-inertial sensor fusion, and dynamic trajectory generation.",
+      "icon": "Bot",
+      "tags": []
+    },
+    {
+      "id": "embedded-systems",
+      "title": "Embedded Systems & Firmware",
+      "subtitle": "Bare-Metal C/C++ & FreeRTOS",
+      "description": "Architecting deterministic real-time firmware for ARM Cortex-M (STM32) and ESP32 platforms with high-speed CAN-bus, SPI, I2C, and DMA peripheral drivers.",
+      "icon": "Cpu",
+      "tags": []
+    },
+    {
+      "id": "mechanical-cad",
+      "title": "Mechanical Design & FEA",
+      "subtitle": "DFM, Precision CAD & Simulation",
+      "description": "Designing high-precision robotic gearboxes, structural sheet-metal chassis, and composite enclosures with rigorous FEA stress and thermal analysis.",
+      "icon": "Cog",
+      "tags": []
+    },
+    {
+      "id": "control-perception",
+      "title": "Control & Computer Vision",
+      "subtitle": "State-Space & Edge AI Perception",
+      "description": "Designing closed-loop PID/LQR controllers, Field-Oriented Control (FOC) for BLDC motors, and deploying OpenCV/YOLO models on NVIDIA Jetson edge computers.",
+      "icon": "Activity",
+      "tags": []
+    }
+  ],
+  "experiences": [
+    {
+      "id": "exp-1",
+      "role": "Robotics Systems & Firmware Engineer",
+      "organization": "Autonomous Robotics Labs",
+      "organizationUrl": "https://example.com/robotics",
+      "location": "Colombo, Sri Lanka",
+      "type": "Full-time",
+      "startDate": "2023-08",
+      "endDate": "Present",
+      "current": true,
+      "summary": "Lead mechatronic system architect responsible for designing custom differential-drive AMRs and high-rate STM32 sensor fusion boards.",
+      "achievements": [
+        "Architected an end-to-end ROS2 navigation pipeline delivering ±1.5 cm docking repeatability in GPS-denied industrial warehouse environments.",
+        "Engineered custom STM32F446RE motor controller firmware running 20 kHz dual-loop FOC for 200W brushless motors with CANopen communication.",
+        "Reduced mechanical chassis mass by 28% through topology optimization in SolidWorks while preserving 150 kg payload rating.",
+        "Implemented real-time safety watchdog sub-circuits and optical obstacle avoidance with sub-10ms emergency braking response."
+      ],
+      "technologies": [
+        "STM32CubeIDE",
+        "ROS 2",
+        "C++17",
+        "SolidWorks",
+        "CAN Bus",
+        "FreeRTOS",
+        "Nav2",
+        "Altium"
+      ]
+    },
+    {
+      "id": "exp-2",
+      "role": "Embedded Systems & Hardware Intern",
+      "organization": "NexTek Mechatronics R&D",
+      "organizationUrl": "https://example.com/nextek",
+      "location": "Kandy, Sri Lanka",
+      "type": "Internship",
+      "startDate": "2022-11",
+      "endDate": "2023-05",
+      "current": false,
+      "summary": "Designed multi-sensor industrial telemetry hardware and developed diagnostic firmware for smart IoT gateway modules.",
+      "achievements": [
+        "Designed a 4-layer PCB with STM32 microcontroller, RS-485 Modbus, and isolated 24V digital I/O lines conforming to EMC standards.",
+        "Wrote low-power FreeRTOS drivers for high-precision IMU, current-sensing ADCs, and SPI flash memory logging.",
+        "Built an automated hardware-in-the-loop (HIL) test harness using Python and SCPI instruments, reducing QA verification cycle by 60%."
+      ],
+      "technologies": [
+        "KiCad",
+        "C",
+        "FreeRTOS",
+        "STM32",
+        "Modbus RTU",
+        "Python",
+        "Oscilloscope / Logic Analyzer"
+      ]
+    },
+    {
+      "id": "exp-3",
+      "role": "Chassis & Mechanism Lead",
+      "organization": "University Autonomous Rover Team",
+      "organizationUrl": "https://example.com/rover",
+      "location": "University Campus",
+      "type": "Student Team",
+      "startDate": "2021-03",
+      "endDate": "2023-07",
+      "current": false,
+      "summary": "Directed the mechanical and electromechanical subsystem engineering for a 50 kg Mars-style exploration rover.",
+      "achievements": [
+        "Designed and fabricated a rocker-bogie suspension system capable of traversing 30 cm obstacles and 35-degree loose terrain inclines.",
+        "Integrated sealed IP65 cycloidal gear reductions with custom rotary encoders for 6 continuous-steer planetary wheel pods.",
+        "Led team of 8 junior engineers through design reviews, FEA load validations, and precision TIG welding & CNC milling fabrication."
+      ],
+      "technologies": [
+        "SolidWorks",
+        "ANSYS Workbench",
+        "CNC Machining",
+        "TIG Welding",
+        "MATLAB",
+        "Kinematics"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "degree": "Bachelor of Science in Engineering (Hons)",
+      "major": "Mechatronics & Robotics Engineering",
+      "institution": "Faculty of Engineering, University of Moratuwa",
+      "location": "Moratuwa, Sri Lanka",
+      "startDate": "2020",
+      "endDate": "2024",
+      "current": false,
+      "gpa": "First Class Honours (3.86 / 4.00)",
+      "honors": "Dean's Honour List for 6 Consecutive Semesters | Best Final Year Mechatronics Capstone Award",
+      "coursework": [
+        "Robotics Kinematics & Dynamics",
+        "Modern Control Systems Engineering",
+        "Embedded Microcontroller Systems",
+        "Computer Vision & Pattern Recognition",
+        "Finite Element Analysis (FEA)",
+        "Digital Signal Processing",
+        "Machine Design & DFM",
+        "Power Electronics & Drives"
+      ],
+      "highlights": [
+        "Capstone Project: Design and Locomotion Control of an Agile Quadruped Robot with Brushless Actuation",
+        "President, University Robotics and Mechatronics Society (2022-2023)",
+        "Undergraduate Teaching Assistant for Microcontroller Programming and CAD Laboratories"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "slug": "quadruped-dynamic-robot",
+      "title": "Agile Quadruped Legged Robot",
+      "tagline": "Dynamic Legged Locomotion with Custom BLDC Cycloidal Actuators & Real-Time MPC Control",
+      "description": "An open-source 12-DOF quadruped robot platform engineered from scratch for agile locomotion across unstructured terrain. Features custom low-inertia 3D-printed/carbon-fiber legs, high-torque quasi-direct drive cycloidal gearboxes, and a real-time Convex MPC controller running on an onboard computing module.",
+      "category": "Robotics",
+      "year": "2024",
+      "role": "Lead Mechatronics Engineer & Controls Designer",
+      "duration": "9 Months",
+      "organization": "University Capstone Lab",
+      "team": "4 Engineers",
+      "problem": "Traditional commercial quadruped robots are prohibitively expensive for academic research and often utilize closed proprietary hardware and firmware stacks with high actuator backlash.",
+      "objective": "Engineer a high-performance, cost-effective 12-DOF quadruped robot capable of trotting, bounding, and active disturbance rejection with fully transparent hardware and software specifications.",
+      "approach": "Adopted a multidisciplinary mechatronic design methodology: first simulated single-leg dynamics in MATLAB/Simscape, engineered custom 6:1 cycloidal gearboxes with under 0.1 deg backlash, developed high-speed CAN FD communication between 12 joint nodes, and implemented hierarchical Model Predictive Control (MPC) and Whole-Body Control (WBC).",
+      "features": [
+        "12 high-torque quasi-direct drive brushless actuator modules with 14-bit absolute magnetic encoders",
+        "Real-time Hierarchical Convex MPC and Virtual Model Stance Controller running at 500 Hz",
+        "CAN FD multi-drop bus operating at 5 Mbps with synchronous zero-jitter joint torque streaming",
+        "Carbon-fiber composite leg linkages optimized for minimal impact inertia during swing phase",
+        "Comprehensive Gazebo simulation environment with full kinematic and dynamic URDF model"
+      ],
+      "results": [
+        "Achieved stable trotting at 1.4 m/s over uneven obstacles and 15-degree inclines.",
+        "Demonstrated active push recovery against 40 N horizontal impulse disturbances.",
+        "Total hardware BOM cost kept under $1,800—an 85% reduction compared to commercial research quadrupeds."
+      ],
+      "technologies": [
+        "C++20",
+        "ROS 2 Humble",
+        "STM32F7",
+        "FreeRTOS",
+        "SolidWorks",
+        "CAN FD",
+        "Gazebo Sim",
+        "MATLAB / Simulink"
+      ],
+      "programmingLanguages": [
+        "C++",
+        "C",
+        "Python",
+        "MATLAB"
+      ],
+      "frameworks": [
+        "ROS 2",
+        "Eigen3",
+        "Pinocchio Dynamics",
+        "FreeRTOS"
+      ],
+      "hardware": [
+        "STM32F767ZI Main Controller",
+        "12x Custom FOC Motor Drivers",
+        "BNO085 9-DOF IMU",
+        "NVIDIA Jetson Orin Nano"
+      ],
+      "sensors": [
+        "14-bit AS5048A Magnetic Encoders",
+        "BNO085 9-DOF High-Rate IMU",
+        "Current Shunt Sensors",
+        "Foot Contact Load Cells"
+      ],
+      "tools": [
+        "SolidWorks 2024",
+        "Ansys FEA",
+        "Saleae Logic Pro 16",
+        "Keysight InfiniiVision Oscilloscope"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/quadruped-dynamic-robot",
+      "liveDemoUrl": "",
+      "docsUrl": "https://github.com/kulasekarapandiankr2006/quadruped-dynamic-robot/wiki",
+      "youtubeUrl": "https://youtube.com/watch?v=dQw4w9WgXcQ",
+      "downloadUrl": "",
+      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=1200&h=800&q=80",
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=1200&h=800&q=80",
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "quadruped_telemetry_dashboard.zip",
+      "zipFileSize": 3420000,
+      "entryPoint": "index.html",
+      "runtimeUrl": "/api/runtime/quadruped-dynamic-robot/",
+      "published": true,
+      "featured": true,
+      "displayOrder": 1
+    },
+    {
+      "id": "proj-2",
+      "slug": "autonomous-warehouse-amr",
+      "title": "Industrial Autonomous Mobile Robot (AMR)",
+      "tagline": "LiDAR SLAM, Autonomous Navigation & Precision Docking for Material Handling",
+      "description": "A heavy-duty autonomous mobile robot designed for internal logistics in manufacturing facilities. Integrated with dual 2D safety LiDARs, depth cameras, 3-axis IMU, and a custom suspension system capable of moving 150 kg payloads with millimetric precision.",
+      "category": "Robotics",
+      "year": "2023",
+      "role": "Software & Embedded Systems Engineer",
+      "duration": "6 Months",
+      "organization": "Autonomous Robotics Labs",
+      "team": "3 Engineers",
+      "problem": "Manual transport of raw materials between production cells generates bottlenecks and safety hazards in crowded factory environments.",
+      "objective": "Build an industrial-grade autonomous transport unit with autonomous route planning, dynamic obstacle avoidance, and battery docking.",
+      "approach": "Built a differential-drive robot base running ROS 2 Nav2 stack on an industrial x86 PC, interfaced with dual Sick safety LiDARs and high-power BLDC motors governed by custom STM32 motion controllers.",
+      "features": [
+        "Dual 270-degree LiDAR coverage with zero blind-spot safety zones and emergency stop certification",
+        "Sub-centimeter docking capability utilizing visual AprilTag tracking and infrared guidance",
+        "Fleet management integration over secure MQTT/WebSockets with cloud dispatch dashboard",
+        "Adaptive costmap generation with dynamic obstacle speed prediction"
+      ],
+      "results": [
+        "Successfully navigated 1,200+ autonomous delivery cycles in a live manufacturing facility without human intervention.",
+        "Zero collision incidents recorded over 250+ operational hours."
+      ],
+      "technologies": [
+        "ROS 2",
+        "C++",
+        "Python",
+        "Cartographer SLAM",
+        "Nav2",
+        "STM32",
+        "LiDAR",
+        "AprilTag"
+      ],
+      "programmingLanguages": [
+        "C++17",
+        "Python",
+        "C"
+      ],
+      "frameworks": [
+        "ROS 2 Nav2",
+        "OpenCV",
+        "Fast-DDS",
+        "BehaviorTree.CPP"
+      ],
+      "hardware": [
+        "Intel i7 Embedded PC",
+        "STM32F407 Motion Subsystem",
+        "Dual Sick S300 LiDARs",
+        "Intel RealSense D435i"
+      ],
+      "sensors": [
+        "2D Safety LiDAR",
+        "RealSense RGB-D",
+        "Wheel Quadrature Encoders",
+        "Ultrasonic Proximity Sensors"
+      ],
+      "tools": [
+        "Foxglove Studio",
+        "RViz2",
+        "Gazebo",
+        "Git / CI"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/autonomous-warehouse-amr",
+      "docsUrl": "https://github.com/kulasekarapandiankr2006/autonomous-warehouse-amr",
+      "thumbnail": "https://images.unsplash.com/photo-1563770660941-20978e870e26?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1563770660941-20978e870e26?fit=crop&w=1200&h=800&q=80",
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "amr_telemetry_ui.zip",
+      "zipFileSize": 2150000,
+      "entryPoint": "index.html",
+      "runtimeUrl": "/api/runtime/autonomous-warehouse-amr/",
+      "published": true,
+      "featured": true,
+      "displayOrder": 2
+    },
+    {
+      "id": "proj-3",
+      "slug": "stm32-canopen-foc-drive",
+      "title": "High-Performance FOC BLDC Servo Drive",
+      "tagline": "Field-Oriented Control Firmware for Brushless Actuators with CANopen over STM32G4",
+      "description": "A compact, high-bandwidth servo drive platform engineered around the STM32G474 microcontroller. Features Space Vector PWM, sensorless & encoder-based Field-Oriented Control (FOC), active phase-current sensing, and rigorous thermal management.",
+      "category": "Embedded Systems",
+      "year": "2023",
+      "role": "Lead Hardware & Firmware Designer",
+      "duration": "4 Months",
+      "organization": "Independent R&D",
+      "problem": "Commercial servo drives are bulky, expensive, and lack open CANopen / high-frequency telemetry APIs required for dynamic robotics research.",
+      "objective": "Design a sub-50mm round servo drive capable of delivering 30A continuous at 48V (1.4 kW peak) with full FOC control loops running at 40 kHz.",
+      "approach": "Engineered a 4-layer 2oz copper PCB with MOSFET half-bridges and shunt current amplifiers; wrote register-level C firmware utilizing the STM32 high-resolution timer (HRTIM) and CORDIC hardware math accelerator.",
+      "features": [
+        "40 kHz FOC current loop with sub-2µs total calculation latency using ARM Cortex-M4 DSP & CORDIC",
+        "Integrated dual AS5047P absolute magnetic encoder interface over high-speed SPI",
+        "CiA 402 drive profile implementation (Profile Position, Profile Velocity, Cyclic Synchronous Torque)",
+        "Hardware over-current, under-voltage, and thermal runaway protection circuitry"
+      ],
+      "results": [
+        "Achieved 96.8% electrical power conversion efficiency at 48V / 25A continuous load.",
+        "Delivered smooth torque ripple below 1.2% across 0 to 6000 RPM velocity range."
+      ],
+      "technologies": [
+        "STM32G4",
+        "C",
+        "FOC",
+        "CANopen",
+        "KiCad",
+        "Altium",
+        "FreeRTOS",
+        "CORDIC"
+      ],
+      "programmingLanguages": [
+        "C",
+        "Assembly (ARM Thumb-2)",
+        "Python (Tuning GUI)"
+      ],
+      "frameworks": [
+        "STM32Cube HAL",
+        "Custom Math Libs"
+      ],
+      "hardware": [
+        "STM32G474CEU6",
+        "TI DRV8323 Gate Driver",
+        "N-Channel MOSFETs 60V/120A",
+        "INA240 Current Sense"
+      ],
+      "sensors": [
+        "AS5047P 14-bit Magnetic Encoder",
+        "NTC Thermistors",
+        "Low-side Shunts"
+      ],
+      "tools": [
+        "KiCad 7",
+        "Saleae Logic Pro",
+        "Rigol Waveform Generator",
+        "Python PyQt GUI"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/stm32-canopen-foc-drive",
+      "docsUrl": "https://github.com/kulasekarapandiankr2006/stm32-canopen-foc-drive/wiki",
+      "thumbnail": "https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": false,
+      "published": true,
+      "featured": true,
+      "displayOrder": 3
+    },
+    {
+      "id": "proj-4",
+      "slug": "edge-ai-vision-sorter",
+      "title": "Real-Time Edge-AI Industrial Vision Sorter",
+      "tagline": "High-Speed Defect Inspection & 4-Axis Delta Robot Sorter using YOLOv8 on Jetson",
+      "description": "An automated industrial inspection and sorting system combining deep-learning object classification with high-speed Delta robot kinematics. Detects micro-defects on conveyor parts at 120 items/minute with real-time visual tracking.",
+      "category": "Computer Vision",
+      "year": "2023",
+      "role": "Vision Systems & Kinematics Lead",
+      "duration": "5 Months",
+      "organization": "University Mechatronics Lab",
+      "problem": "Manual quality inspection in manufacturing is slow, subjective, and prone to fatigue-induced errors.",
+      "objective": "Build an autonomous sorting cell combining sub-millimeter vision defect identification with dynamic kinematic pick-and-place tracking.",
+      "approach": "Trained a custom lightweight YOLOv8 nano model optimized via TensorRT for 60 FPS inference on NVIDIA Jetson; developed closed-form Delta robot kinematics on STM32 communicating over UDP.",
+      "features": [
+        "60 FPS defect detection and 6D pose estimation running locally on NVIDIA Jetson Orin Nano",
+        "Conveyor-belt linear encoder tracking synchronizing robot gripper trajectory on-the-fly",
+        "High-acceleration Delta robot arm executing pick-and-place cycles under 450 ms",
+        "Industrial Web HMI dashboard displaying defect analytics, yield rate, and live annotated video stream"
+      ],
+      "results": [
+        "Attained 99.4% defect classification accuracy across 10,000+ test samples.",
+        "Increased sorting throughput by 320% compared to previous manual inspection station."
+      ],
+      "technologies": [
+        "Python",
+        "C++",
+        "YOLOv8",
+        "TensorRT",
+        "OpenCV",
+        "Jetson Orin",
+        "Delta Kinematics",
+        "WebSocket"
+      ],
+      "programmingLanguages": [
+        "Python",
+        "C++",
+        "JavaScript"
+      ],
+      "frameworks": [
+        "PyTorch",
+        "TensorRT",
+        "OpenCV",
+        "Flask / WebSockets"
+      ],
+      "hardware": [
+        "NVIDIA Jetson Orin Nano",
+        "Basler Ace GigE Industrial Camera",
+        "STM32F4 Motion Controller",
+        "Delta Mechanism"
+      ],
+      "sensors": [
+        "GigE Matrix Camera",
+        "Incremental Conveyor Encoder",
+        "Photoelectric Sensors"
+      ],
+      "tools": [
+        "SolidWorks",
+        "RoboDK",
+        "OpenCV",
+        "Jupyter"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/edge-ai-vision-sorter",
+      "thumbnail": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "vision_hmi_dashboard.zip",
+      "zipFileSize": 4850000,
+      "entryPoint": "index.html",
+      "runtimeUrl": "/api/runtime/edge-ai-vision-sorter/",
+      "published": true,
+      "featured": false,
+      "displayOrder": 4
+    },
+    {
+      "id": "proj-5",
+      "slug": "re-sensor-iq",
+      "title": "RE-Sensor IQ",
+      "tagline": "Industrial Telemetry, CAN FD Stream & Edge-AI Predictive Anomaly Detection",
+      "description": "An intelligent industrial multi-sensor telemetry dashboard and edge anomaly detection platform. Monitors high-frequency 3-axis vibration FFT peaks, temperature gradients, CAN bus packet streams, and predicts mechanical wear on industrial machines in real time.",
+      "category": "IoT & Industrial",
+      "year": "2024",
+      "role": "Lead Systems & Firmware Engineer",
+      "duration": "4 Months",
+      "organization": "Industrial Mechatronics Lab",
+      "team": "Solo Project",
+      "problem": "Traditional factory vibration and temperature telemetry systems are isolated in proprietary SCADA silos with high latency and lack real-time edge anomaly classification.",
+      "objective": "Engineer a high-speed CAN FD sensor telemetry aggregator and responsive Web HMI dashboard capable of streaming 1000 Hz accelerometer data with sub-millisecond loop times.",
+      "approach": "Integrated BNO085 9-DOF IMU and high-precision temperature sensors with STM32 CAN FD transceiver; built a lightweight high-framerate HTML5/Canvas telemetry frontend served directly at the edge.",
+      "features": [
+        "1000 Hz real-time 3-axis accelerometer waveform streaming using HTML5 Canvas",
+        "CAN FD 1 Mbps packet inspector and live circular log terminal",
+        "Edge-computed FFT vibration peak and anomaly score classification",
+        "Full responsive industrial telemetry dashboard with live metric gauges"
+      ],
+      "results": [
+        "Sustained 1000 Hz streaming rate with zero packet drops over 100+ continuous hours.",
+        "Detected simulated bearing imbalance within 12 ms of anomaly onset."
+      ],
+      "technologies": [
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "CAN FD",
+        "STM32",
+        "BNO085",
+        "WebSockets",
+        "Canvas API"
+      ],
+      "programmingLanguages": [
+        "JavaScript",
+        "C",
+        "C++",
+        "Python"
+      ],
+      "frameworks": [
+        "Canvas API",
+        "Chart.js",
+        "Express"
+      ],
+      "hardware": [
+        "STM32G4 Microcontroller",
+        "BNO085 9-DOF IMU",
+        "MCP2542 CAN FD Transceiver"
+      ],
+      "sensors": [
+        "BNO085 9-DOF IMU",
+        "NTC Thermistor",
+        "Current Shunt"
+      ],
+      "tools": [
+        "Saleae Logic Pro",
+        "SolidWorks",
+        "Oscilloscope"
+      ],
+      "githubUrl": "https://github.com/kulasekarapandiankr2006/re-sensor-iq",
+      "thumbnail": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "RE-Sensor-IQ.zip",
+      "zipFileSize": 1420000,
+      "entryPoint": "landing/index.html",
+      "runtimeUrl": "http://localhost:5000/runtime/re-sensor-iq/landing/index.html",
+      "published": true,
+      "featured": true,
+      "displayOrder": 1
+    },
+    {
+      "id": "proj-1788462645041",
+      "slug": "rsen",
+      "title": "rsen",
+      "tagline": "ksdnfl",
+      "description": "sdkf",
+      "category": "Robotics",
+      "year": "2026",
+      "role": "Lead Mechatronics Engineer",
+      "duration": "3 Months",
+      "organization": "",
+      "team": "Solo",
+      "problem": "",
+      "objective": "",
+      "approach": "",
+      "features": [],
+      "results": [],
+      "technologies": [
+        "C++",
+        "ROS 2",
+        "STM32"
+      ],
+      "programmingLanguages": [
+        "C++",
+        "C",
+        "Python"
+      ],
+      "frameworks": [
+        "ROS 2"
+      ],
+      "hardware": [
+        "STM32 Microcontroller"
+      ],
+      "sensors": [
+        "IMU Sensor"
+      ],
+      "tools": [
+        "SolidWorks",
+        "Logic Analyzer"
+      ],
+      "githubUrl": "",
+      "liveDemoUrl": "",
+      "docsUrl": "",
+      "youtubeUrl": "",
+      "downloadUrl": "",
+      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "",
+      "zipFileSize": 0,
+      "entryPoint": "landing/index.html",
+      "runtimeUrl": "/runtime/rsen/landing/index.html",
+      "extractedTree": [
+        {
+          "name": "landing",
+          "path": "landing",
+          "type": "directory",
+          "children": [
+            {
+              "name": "assets",
+              "path": "landing/assets",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "icons",
+                  "path": "landing/assets/icons",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "favicon.svg",
+                      "path": "landing/assets/icons/favicon.svg",
+                      "type": "file",
+                      "size": 326,
+                      "extension": "svg",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "images",
+                  "path": "landing/assets/images",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "og-cover.svg",
+                      "path": "landing/assets/images/og-cover.svg",
+                      "type": "file",
+                      "size": 1010,
+                      "extension": "svg",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "screenshots",
+                  "path": "landing/assets/screenshots",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ai.png",
+                      "path": "landing/assets/screenshots/ai.png",
+                      "type": "file",
+                      "size": 217653,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "analytics.png",
+                      "path": "landing/assets/screenshots/analytics.png",
+                      "type": "file",
+                      "size": 247912,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "comparison.png",
+                      "path": "landing/assets/screenshots/comparison.png",
+                      "type": "file",
+                      "size": 363225,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "dashboard.png",
+                      "path": "landing/assets/screenshots/dashboard.png",
+                      "type": "file",
+                      "size": 723746,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "database.png",
+                      "path": "landing/assets/screenshots/database.png",
+                      "type": "file",
+                      "size": 173762,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "favorites.png",
+                      "path": "landing/assets/screenshots/favorites.png",
+                      "type": "file",
+                      "size": 182130,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "gallery.png",
+                      "path": "landing/assets/screenshots/gallery.png",
+                      "type": "file",
+                      "size": 428863,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "history.png",
+                      "path": "landing/assets/screenshots/history.png",
+                      "type": "file",
+                      "size": 297580,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "report.png",
+                      "path": "landing/assets/screenshots/report.png",
+                      "type": "file",
+                      "size": 196057,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "settings.png",
+                      "path": "landing/assets/screenshots/settings.png",
+                      "type": "file",
+                      "size": 238894,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "me-pic.jpg",
+                  "path": "landing/assets/me-pic.jpg",
+                  "type": "file",
+                  "size": 1912961,
+                  "extension": "jpg",
+                  "isEntryCandidate": false
+                }
+              ]
+            },
+            {
+              "name": "downloads",
+              "path": "landing/downloads",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "RE SensorIQ Setup.exe",
+                  "path": "landing/downloads/RE SensorIQ Setup.exe",
+                  "type": "file",
+                  "size": 204816463,
+                  "extension": "exe",
+                  "isEntryCandidate": false
+                }
+              ]
+            },
+            {
+              "name": "index.html",
+              "path": "landing/index.html",
+              "type": "file",
+              "size": 34635,
+              "extension": "html",
+              "isEntryCandidate": true
+            },
+            {
+              "name": "manifest.json",
+              "path": "landing/manifest.json",
+              "type": "file",
+              "size": 363,
+              "extension": "json",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "robots.txt",
+              "path": "landing/robots.txt",
+              "type": "file",
+              "size": 76,
+              "extension": "txt",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "script.js",
+              "path": "landing/script.js",
+              "type": "file",
+              "size": 5414,
+              "extension": "js",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "sitemap.xml",
+              "path": "landing/sitemap.xml",
+              "type": "file",
+              "size": 239,
+              "extension": "xml",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "style.css",
+              "path": "landing/style.css",
+              "type": "file",
+              "size": 20205,
+              "extension": "css",
+              "isEntryCandidate": false
+            }
+          ]
+        }
+      ],
+      "published": true,
+      "featured": false,
+      "displayOrder": 6
+    },
+    {
+      "id": "proj-1788466774708",
+      "slug": "reseniq",
+      "title": "reseniq",
+      "tagline": "alsfg",
+      "description": "flkdg",
+      "category": "Robotics",
+      "year": "2026",
+      "role": "Lead Mechatronics Engineer",
+      "duration": "3 Months",
+      "organization": "",
+      "team": "Solo",
+      "problem": "",
+      "objective": "",
+      "approach": "",
+      "features": [],
+      "results": [],
+      "technologies": [
+        "C++",
+        "ROS 2",
+        "STM32"
+      ],
+      "programmingLanguages": [
+        "C++",
+        "C",
+        "Python"
+      ],
+      "frameworks": [
+        "ROS 2"
+      ],
+      "hardware": [
+        "STM32 Microcontroller"
+      ],
+      "sensors": [
+        "IMU Sensor"
+      ],
+      "tools": [
+        "SolidWorks",
+        "Logic Analyzer"
+      ],
+      "githubUrl": "",
+      "liveDemoUrl": "",
+      "docsUrl": "",
+      "youtubeUrl": "",
+      "downloadUrl": "",
+      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=1200&h=800&q=80"
+      ],
+      "hasZip": true,
+      "zipFileName": "",
+      "zipFileSize": 0,
+      "entryPoint": "landing/index.html",
+      "runtimeUrl": "/runtime/reseniq/landing/index.html",
+      "extractedTree": [
+        {
+          "name": "landing",
+          "path": "landing",
+          "type": "directory",
+          "children": [
+            {
+              "name": "assets",
+              "path": "landing/assets",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "icons",
+                  "path": "landing/assets/icons",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "favicon.svg",
+                      "path": "landing/assets/icons/favicon.svg",
+                      "type": "file",
+                      "size": 326,
+                      "extension": "svg",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "images",
+                  "path": "landing/assets/images",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "og-cover.svg",
+                      "path": "landing/assets/images/og-cover.svg",
+                      "type": "file",
+                      "size": 1010,
+                      "extension": "svg",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "screenshots",
+                  "path": "landing/assets/screenshots",
+                  "type": "directory",
+                  "children": [
+                    {
+                      "name": "ai.png",
+                      "path": "landing/assets/screenshots/ai.png",
+                      "type": "file",
+                      "size": 217653,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "analytics.png",
+                      "path": "landing/assets/screenshots/analytics.png",
+                      "type": "file",
+                      "size": 247912,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "comparison.png",
+                      "path": "landing/assets/screenshots/comparison.png",
+                      "type": "file",
+                      "size": 363225,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "dashboard.png",
+                      "path": "landing/assets/screenshots/dashboard.png",
+                      "type": "file",
+                      "size": 723746,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "database.png",
+                      "path": "landing/assets/screenshots/database.png",
+                      "type": "file",
+                      "size": 173762,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "favorites.png",
+                      "path": "landing/assets/screenshots/favorites.png",
+                      "type": "file",
+                      "size": 182130,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "gallery.png",
+                      "path": "landing/assets/screenshots/gallery.png",
+                      "type": "file",
+                      "size": 428863,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "history.png",
+                      "path": "landing/assets/screenshots/history.png",
+                      "type": "file",
+                      "size": 297580,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "report.png",
+                      "path": "landing/assets/screenshots/report.png",
+                      "type": "file",
+                      "size": 196057,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    },
+                    {
+                      "name": "settings.png",
+                      "path": "landing/assets/screenshots/settings.png",
+                      "type": "file",
+                      "size": 238894,
+                      "extension": "png",
+                      "isEntryCandidate": false
+                    }
+                  ]
+                },
+                {
+                  "name": "me-pic.jpg",
+                  "path": "landing/assets/me-pic.jpg",
+                  "type": "file",
+                  "size": 1912961,
+                  "extension": "jpg",
+                  "isEntryCandidate": false
+                }
+              ]
+            },
+            {
+              "name": "downloads",
+              "path": "landing/downloads",
+              "type": "directory",
+              "children": [
+                {
+                  "name": "RE SensorIQ Setup.exe",
+                  "path": "landing/downloads/RE SensorIQ Setup.exe",
+                  "type": "file",
+                  "size": 204816463,
+                  "extension": "exe",
+                  "isEntryCandidate": false
+                }
+              ]
+            },
+            {
+              "name": "index.html",
+              "path": "landing/index.html",
+              "type": "file",
+              "size": 34673,
+              "extension": "html",
+              "isEntryCandidate": true
+            },
+            {
+              "name": "manifest.json",
+              "path": "landing/manifest.json",
+              "type": "file",
+              "size": 363,
+              "extension": "json",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "robots.txt",
+              "path": "landing/robots.txt",
+              "type": "file",
+              "size": 76,
+              "extension": "txt",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "script.js",
+              "path": "landing/script.js",
+              "type": "file",
+              "size": 5414,
+              "extension": "js",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "sitemap.xml",
+              "path": "landing/sitemap.xml",
+              "type": "file",
+              "size": 239,
+              "extension": "xml",
+              "isEntryCandidate": false
+            },
+            {
+              "name": "style.css",
+              "path": "landing/style.css",
+              "type": "file",
+              "size": 20205,
+              "extension": "css",
+              "isEntryCandidate": false
+            }
+          ]
+        }
+      ],
+      "published": true,
+      "featured": false,
+      "displayOrder": 7
+    }
+  ],
+  "mechanicalDesigns": [
+    {
+      "id": "mech-1",
+      "slug": "cycloidal-actuator-gearbox",
+      "title": "Low-Backlash Cycloidal Actuator for Legged Robotics",
+      "tagline": "High-Torque Density 6:1 Cycloidal Reduction with Integrated Crossed Roller Bearings",
+      "description": "A custom-engineered quasi-direct drive actuator module built specifically for dynamic quadruped and bipedal robotic joints. Engineered to withstand intense impact shock loads while maintaining near-zero backlash (< 1.5 arcmin) and high back-drivability for transparent force control.",
+      "category": "Actuator & Drivetrain",
+      "year": "2024",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams (including rotor & bearing)",
+      "materials": [
+        "Aircraft Aluminum 7075-T6 (Housing & Eccentric Cam)",
+        "Hardened Tool Steel O1 (Cycloidal Disc & Ring Pins)",
+        "Carbon Fiber Ring Flange (Shielding & Seal)"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling (Housing & Eccentric Shaft)",
+        "Wire EDM (Cycloidal Profile & Pin Bores)",
+        "Precision Surface Grinding (Disc Faces to ±0.005 mm)"
+      ],
+      "tolerances": "ISO 2768-f; Bearing seats: k5/h6; Pin bores: H7 (+0.012/-0.000 mm)",
+      "cadSoftware": [
+        "SolidWorks 2024",
+        "Autodesk Fusion 360"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA",
+        "SolidWorks Motion Simulation"
+      ],
+      "problem": "Standard planetary gearboxes suffer from tooth pitting under high robotic foot impacts, while harmonic drive reducers are delicate, expensive, and difficult to back-drive.",
+      "solution": "Engineered a dual-disc cycloidal mechanism with 180-degree phase offset that balances dynamic radial forces and distributes high shock loads across multiple contact pins simultaneously.",
+      "keyFeatures": [
+        "6:1 gear reduction ratio in an ultra-compact 42 mm axial packaging envelope",
+        "Integrated custom crossed-roller bearing capable of handling 120 Nm combined radial/axial moment loads",
+        "Backlash measured under 1.2 arcminutes with > 91% mechanical torque transmission efficiency",
+        "Hollow-bore center routing shaft enabling continuous wire harness pass-through for multi-joint arms"
+      ],
+      "feaResults": "Von Mises maximum stress of 312 MPa under 60 Nm peak shock impact load (Safety factor of 1.78 on 7075-T6 aluminum yield limit).",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Output Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Continuous Torque",
+          "value": "18.5",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Outer Diameter",
+          "value": "96.0",
+          "unit": "mm",
+          "category": "Geometry"
+        },
+        {
+          "label": "Axial Length",
+          "value": "42.0",
+          "unit": "mm",
+          "category": "Geometry"
+        },
+        {
+          "label": "Total Mass",
+          "value": "485",
+          "unit": "g",
+          "category": "Material"
+        },
+        {
+          "label": "Efficiency",
+          "value": "92.4",
+          "unit": "%",
+          "category": "Performance"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80",
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [
+        {
+          "id": "cad-1",
+          "name": "Cycloidal_Actuator_Assembly_v3.STEP",
+          "format": "STEP",
+          "size": "14.2 MB",
+          "description": "Complete production 3D assembly model"
+        },
+        {
+          "id": "cad-2",
+          "name": "Cycloidal_Disc_Precision_Profile.DXF",
+          "format": "STEP",
+          "size": "2.4 MB",
+          "description": "Wire EDM cutting profile"
+        }
+      ],
+      "drawings": [
+        {
+          "id": "drw-1",
+          "title": "Actuator Main Housing 2D Production Drawing",
+          "drawingNumber": "ENG-CYC-2024-001",
+          "revision": "Rev C",
+          "previewUrl": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+          "pdfUrl": "/drawings/cycloidal_housing.pdf",
+          "description": "Complete GD&T callouts, bearing fits, and surface finish notes"
+        }
+      ],
+      "published": true,
+      "featured": true,
+      "displayOrder": 1
+    },
+    {
+      "id": "mech-2",
+      "slug": "quadruped-composite-chassis",
+      "title": "Modular Carbon Fiber & Aluminum Quadruped Chassis",
+      "tagline": "Ultra-Lightweight Monocoque Chassis with Internal Battery & Electronics Thermal Ducting",
+      "description": "Structural body monocoque engineered to house onboard computers, battery pack, and power distribution boards while serving as the rigid anchor for 4 hip actuator modules.",
+      "category": "Chassis & Structure",
+      "year": "2024",
+      "dimensions": "440 x 220 x 140 mm",
+      "weight": "1.12 kg (Bare chassis)",
+      "materials": [
+        "3K Twill Carbon Fiber Plate 2.5 mm",
+        "Billet Aluminum 6061-T6 (Corner Rib Mounts)",
+        "3D Printed Nylon PA12 (Thermal Air Ducts)"
+      ],
+      "manufacturingMethods": [
+        "CNC Waterjet Cutting (Carbon Fiber Plates)",
+        "CNC 3-Axis Milling (Corner Nodes & Motor Mounts)",
+        "Selective Laser Sintering (SLS PA12 Cooling Shrouds)"
+      ],
+      "tolerances": "Waterjet profile: ±0.15 mm; CNC bolt patterns: ±0.05 mm",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "SolidWorks Simulation (Linear Static & Torsional Rigidity)"
+      ],
+      "problem": "Quadruped robot bodies require high torsional stiffness during trotting but must remain lightweight to conserve battery life and maintain dynamic agility.",
+      "solution": "Constructed an interlocking carbon-fiber box structure joined by CNC aluminum corner brackets with integrated thermal exhaust channels that guide forced air over the central computing unit.",
+      "keyFeatures": [
+        "High torsional stiffness (> 480 Nm/deg) preventing chassis flex under aggressive dynamic turning",
+        "Quick-release battery tray mechanism enabling battery hot-swapping in under 15 seconds",
+        "Sealed IP54 electronics compartment with silicone perimeter gaskets",
+        "Integrated vibration-isolated mounting plate for high-precision IMU state estimation"
+      ],
+      "feaResults": "Torsional deflection under 0.22 degrees under full diagonal 400 N ground reaction force test.",
+      "specifications": [
+        {
+          "label": "Length",
+          "value": "440",
+          "unit": "mm",
+          "category": "Geometry"
+        },
+        {
+          "label": "Width",
+          "value": "220",
+          "unit": "mm",
+          "category": "Geometry"
+        },
+        {
+          "label": "Height",
+          "value": "140",
+          "unit": "mm",
+          "category": "Geometry"
+        },
+        {
+          "label": "Structural Mass",
+          "value": "1.12",
+          "unit": "kg",
+          "category": "Material"
+        },
+        {
+          "label": "Torsional Stiffness",
+          "value": "480",
+          "unit": "Nm/deg",
+          "category": "Performance"
+        },
+        {
+          "label": "Payload Capacity",
+          "value": "12.0",
+          "unit": "kg",
+          "category": "Performance"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [
+        {
+          "id": "cad-3",
+          "name": "Quadruped_Chassis_Assembly.STEP",
+          "format": "STEP",
+          "size": "22.6 MB"
+        }
+      ],
+      "drawings": [],
+      "published": true,
+      "featured": true,
+      "displayOrder": 2
+    },
+    {
+      "id": "mech-1788462601473",
+      "slug": "bolt",
+      "title": "bolt",
+      "tagline": "kasdnf",
+      "description": "ksdnf",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [
+        {
+          "id": "cad-Bolt.SLDPRT",
+          "name": "Bolt.SLDPRT",
+          "format": "SLDPRT",
+          "size": "443.4 KB",
+          "description": "Filesystem CAD Model (SLDPRT)"
+        }
+      ],
+      "drawings": [],
+      "published": true,
+      "featured": false,
+      "displayOrder": 3
+    },
+    {
+      "id": "mech-1788466834565",
+      "slug": "key",
+      "title": "key",
+      "tagline": "asdhf",
+      "description": "adsknf",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [],
+      "drawings": [],
+      "published": false,
+      "featured": false,
+      "displayOrder": 4
+    },
+    {
+      "id": "mech-1788467031961",
+      "slug": "key",
+      "title": "key",
+      "tagline": "dsklfh",
+      "description": "skldf",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [
+        {
+          "id": "cad-Key.SLDPRT",
+          "name": "Key.SLDPRT",
+          "format": "SLDPRT",
+          "size": "54.2 KB",
+          "description": "Filesystem CAD Model (SLDPRT)"
+        }
+      ],
+      "drawings": [],
+      "published": true,
+      "featured": false,
+      "displayOrder": 5
+    },
+    {
+      "id": "mech-1788473317946",
+      "slug": "taper",
+      "title": "taper",
+      "tagline": "skdf",
+      "description": "sdkfn",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [],
+      "drawings": [],
+      "published": true,
+      "featured": false,
+      "displayOrder": 6
+    }
+  ],
+  "skillGroups": [
+    {
+      "id": "embedded-firmware",
+      "category": "Embedded Systems & Firmware",
+      "description": "Low-level microcontrollers, RTOS architecture, and deterministic hardware interfacing.",
+      "icon": "Cpu",
+      "skills": [
+        {
+          "name": "STM32 (ARM Cortex-M0/M4/M7)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "Bare-Metal C & Modern C++ (17/20)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "FreeRTOS & RT-Thread",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "CAN Bus / CANopen / CAN FD",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "SPI, I2C, UART, DMA Drivers",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "ESP32 (ESP-IDF / FreeRTOS)",
+          "level": "Advanced",
+          "highlighted": false
+        },
+        {
+          "name": "FPGA & Verilog (Xilinx / Altera)",
+          "level": "Intermediate",
+          "highlighted": false
+        },
+        {
+          "name": "Hardware Debugging (JTAG, SWD, Oscilloscope)",
+          "level": "Expert",
+          "highlighted": true
+        }
+      ]
+    },
+    {
+      "id": "robotics-control",
+      "category": "Robotics & Autonomous Systems",
+      "description": "Frameworks, motion planning algorithms, and state estimation.",
+      "icon": "Bot",
+      "skills": [
+        {
+          "name": "ROS 2 (Humble / Iron)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "Nav2 & Cartographer SLAM",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Field-Oriented Control (FOC)",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Kalman Filter & Sensor Fusion (EKF/UKF)",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Kinematics & Dynamics (URDF, MoveIt)",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Gazebo & Isaac Sim Simulation",
+          "level": "Advanced",
+          "highlighted": false
+        },
+        {
+          "name": "Model Predictive Control (MPC)",
+          "level": "Intermediate",
+          "highlighted": false
+        },
+        {
+          "name": "MATLAB & Simulink",
+          "level": "Expert",
+          "highlighted": true
+        }
+      ]
+    },
+    {
+      "id": "mechanical-cad-cae",
+      "category": "Mechanical CAD, DFM & Simulation",
+      "description": "3D CAD modeling, engineering drawings, GD&T, and FEA simulation.",
+      "icon": "Cog",
+      "skills": [
+        {
+          "name": "SolidWorks (Part, Assembly, Sheet Metal)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "Autodesk Fusion 360",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "ANSYS Workbench (Static, Modal, Thermal FEA)",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "GD&T (ASME Y14.5 & ISO Standards)",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Design for Additive Manufacturing (DFAM / 3D)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "CNC Milling & Machining Operations",
+          "level": "Intermediate",
+          "highlighted": false
+        },
+        {
+          "name": "KeyShot Photorealistic Rendering",
+          "level": "Advanced",
+          "highlighted": false
+        },
+        {
+          "name": "Tolerance Stack-up Analysis",
+          "level": "Advanced",
+          "highlighted": false
+        }
+      ]
+    },
+    {
+      "id": "software-vision",
+      "category": "Software, Vision & Tools",
+      "description": "Computer vision, edge compute, protocols, and software toolchains.",
+      "icon": "Code2",
+      "skills": [
+        {
+          "name": "Python (NumPy, SciPy, PyTorch)",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "OpenCV & Computer Vision",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "YOLOv8 & TensorRT Edge AI",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Git, GitHub Actions & CI/CD",
+          "level": "Expert",
+          "highlighted": false
+        },
+        {
+          "name": "Linux / Ubuntu & Shell Scripting",
+          "level": "Expert",
+          "highlighted": true
+        },
+        {
+          "name": "KiCad & PCB Layout",
+          "level": "Advanced",
+          "highlighted": true
+        },
+        {
+          "name": "Docker & Containerized Robotics",
+          "level": "Intermediate",
+          "highlighted": false
+        },
+        {
+          "name": "WebSockets & Telemetry Dashboards",
+          "level": "Advanced",
+          "highlighted": false
+        }
+      ]
+    }
+  ],
+  "certifications": [
+    {
+      "id": "cert-1",
+      "title": "Certified SOLIDWORKS Associate (CSWA) - Mechanical Design",
+      "issuer": "Dassault Systèmes",
+      "issueDate": "2022-04",
+      "credentialId": "C-88Y5A3X8K2",
+      "credentialUrl": "https://www.solidworks.com/cswa-verification",
+      "skills": [
+        "SolidWorks",
+        "3D CAD Modeling",
+        "Engineering Drawings",
+        "Part Design"
+      ]
+    },
+    {
+      "id": "cert-2",
+      "title": "ROS 2 for Autonomous Robotics & Mobile Navigation",
+      "issuer": "ConstructSim & Open Robotics",
+      "issueDate": "2023-01",
+      "credentialId": "ROS2-HMBL-8921",
+      "skills": [
+        "ROS 2",
+        "Nav2",
+        "SLAM",
+        "URDF",
+        "C++ Robotics"
+      ]
+    },
+    {
+      "id": "cert-3",
+      "title": "Advanced ARM Cortex-M Microcontroller Architecture & Real-Time Firmware",
+      "issuer": "STMicroelectronics Training Academy",
+      "issueDate": "2023-06",
+      "credentialId": "STM32-RTOS-ADV",
+      "skills": [
+        "STM32",
+        "FreeRTOS",
+        "DMA",
+        "Embedded C",
+        "Hardware Interrupts"
+      ]
+    }
+  ],
+  "achievements": [
+    {
+      "id": "ach-1",
+      "title": "1st Place Winner - National Robotics Innovation Challenge",
+      "organization": "Institution of Engineers Sri Lanka (IESL)",
+      "date": "2023-10",
+      "awardLevel": "National Champion",
+      "description": "Awarded top honor among 48 collegiate engineering teams for developing the autonomous indoor logistics AMR with sub-centimeter docking precision.",
+      "link": "https://iesl.lk"
+    },
+    {
+      "id": "ach-2",
+      "title": "Best Final Year Mechatronics Capstone Award",
+      "organization": "University of Moratuwa",
+      "date": "2024-06",
+      "awardLevel": "Departmental Award",
+      "description": "Recognized as the top undergraduate capstone project for pioneering work on custom cycloidal BLDC actuators and quadruped dynamic balance control."
+    },
+    {
+      "id": "ach-3",
+      "title": "Dean's List of Academic Excellence (6 Semesters)",
+      "organization": "Faculty of Engineering",
+      "date": "2020 - 2024",
+      "description": "Awarded for sustaining GPA above 3.80 across undergraduate academic tenure."
+    }
+  ],
+  "publications": [
+    {
+      "id": "pub-1",
+      "title": "Design and Dynamic Shock-Absorbing Characterization of a Low-Backlash Cycloidal Gearbox for Quadruped Robotics",
+      "authors": [
+        "Kulasekara Pandian K R",
+        "Dr. A. Senanayake",
+        "M. Fernando"
+      ],
+      "conferenceOrJournal": "IEEE International Conference on Robotics and Automation Technology (ICRAT)",
+      "date": "2024-05",
+      "doi": "10.1109/ICRAT.2024.10482910",
+      "abstract": "This paper presents the kinematic formulation, FEA contact stress evaluation, and experimental validation of an ultra-compact 6:1 cycloidal reduction mechanism tailored for high-frequency legged locomotion impacts. Experimental results show shock attenuation up to 60 Nm with < 1.2 arcminutes backlash.",
+      "paperUrl": "https://ieeexplore.ieee.org/document/example",
+      "pdfUrl": "/papers/cycloidal_quadruped_2024.pdf",
+      "tags": [
+        "Cycloidal Gearbox",
+        "Quadruped Actuation",
+        "Shock Mitigation",
+        "CAD & FEA"
+      ]
+    },
+    {
+      "id": "pub-2",
+      "title": "Deterministic Multi-Rate Sensor Fusion on STM32 for Micro-UAV Inertial State Estimation",
+      "authors": [
+        "Kulasekara Pandian K R",
+        "H. Bandara"
+      ],
+      "conferenceOrJournal": "International Journal of Embedded Robotics and Control",
+      "date": "2023-09",
+      "abstract": "A high-rate 1 kHz Extended Kalman Filter (EKF) implementation on ARM Cortex-M4 utilizing DMA-based SPI peripheral polling and hardware floating-point acceleration for real-time drift cancellation.",
+      "paperUrl": "https://doi.org/10.1016/j.emb.2023.09.014",
+      "tags": [
+        "STM32",
+        "Extended Kalman Filter",
+        "Sensor Fusion",
+        "Real-Time Systems"
+      ]
+    }
+  ],
+  "competitions": [
+    {
+      "id": "comp-1",
+      "title": "University Mars Rover Challenge",
+      "organizer": "Mars Society International",
+      "date": "2023-04",
+      "award": "Global Finalist & 4th Place Chassis Design",
+      "rank": "Top 5 Worldwide",
+      "description": "Served as Mechanical Lead for a 50 kg planetary rover, passing autonomous terrain traversal, soil sampling, and equipment servicing missions.",
+      "projectSlug": "quadruped-dynamic-robot",
+      "technologies": [
+        "SolidWorks",
+        "ANSYS",
+        "Rocker-Bogie Suspension",
+        "CAN Bus"
+      ]
+    },
+    {
+      "id": "comp-2",
+      "title": "IEEE Autonomous Robotics Hackathon",
+      "organizer": "IEEE Robotics & Automation Society",
+      "date": "2022-09",
+      "award": "1st Place Winner",
+      "rank": "1st Place",
+      "description": "Engineered a line-tracking and computer-vision sorting robot within a 48-hour continuous design sprint.",
+      "technologies": [
+        "OpenCV",
+        "Python",
+        "STM32",
+        "PID Tuning"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "id": "lang-1",
+      "name": "English",
+      "proficiency": "Fluent",
+      "notes": "Full professional and academic proficiency"
+    },
+    {
+      "id": "lang-2",
+      "name": "Sinhala",
+      "proficiency": "Native",
+      "notes": "Native language"
+    },
+    {
+      "id": "lang-3",
+      "name": "German",
+      "proficiency": "Conversational",
+      "notes": "A2/B1 level - ongoing study"
+    }
+  ],
+  "socialLinks": [
+    {
+      "id": "soc-1",
+      "platform": "GitHub",
+      "url": "https://github.com/kulasekarapandiankr2006",
+      "username": "kulasekarapandiankr2006",
+      "icon": "Github"
+    },
+    {
+      "id": "soc-2",
+      "platform": "LinkedIn",
+      "url": "https://www.linkedin.com/in/kulasekara-pandian-k-r/",
+      "username": "kulasekara-pandian-k-r",
+      "icon": "Linkedin"
+    },
+    {
+      "id": "soc-3",
+      "platform": "YouTube",
+      "url": "",
+      "username": "",
+      "icon": "Youtube"
+    },
+    {
+      "id": "soc-4",
+      "platform": "GrabCAD",
+      "url": "",
+      "username": "",
+      "icon": "Box"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "RE SensorIQ",
+  "short_name": "RE SensorIQ",
+  "description": "AI-Powered Industrial Sensor Recommendation Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080B10",
+  "theme_color": "#080B10",
+  "icons": [
+    {
+      "src": "assets/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
