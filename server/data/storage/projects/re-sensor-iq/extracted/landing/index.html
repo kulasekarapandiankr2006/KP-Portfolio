@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RE-Sensor IQ — Industrial Telemetry & Edge AI Monitor</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <header class="top-nav">
+      <div class="brand">
+        <div class="pulse-dot"></div>
+        <h1>RE-Sensor IQ <span class="badge">v2.4 Live</span></h1>
+      </div>
+      <div class="header-actions">
+        <a href="./downloads/RE-Sensor-IQ-Desktop-Setup-v2.4.exe" download="RE-Sensor-IQ-Desktop-Setup-v2.4.exe" class="btn-download-top">
+          ⬇ Download Desktop Client (.EXE)
+        </a>
+        <div class="status-pill">
+          <span class="dot"></span> CAN Bus Active @ 1 Mbps
+        </div>
+      </div>
+    </header>
+
+    <!-- Download Banner for Desktop App -->
+    <div class="banner-card">
+      <div class="banner-content">
+        <div class="banner-icon">⚡</div>
+        <div>
+          <h3>RE-Sensor IQ Desktop Telemetry Station (Windows x64)</h3>
+          <p>High-bandwidth 10,000 Hz real-time CAN FD stream, USB-CDC hardware driver, and offline FFT spectrum analyzer.</p>
+        </div>
+      </div>
+      <a href="./downloads/RE-Sensor-IQ-Desktop-Setup-v2.4.exe" download="RE-Sensor-IQ-Desktop-Setup-v2.4.exe" class="btn-download-main">
+        <span>Download Installer (.EXE)</span>
+        <small>v2.4.0 • Standalone Executable</small>
+      </a>
+    </div>
+
+    <main class="grid-layout">
+      <!-- Metric Cards -->
+      <div class="card metric-card">
+        <div class="label">Vibration FFT Peak</div>
+        <div class="value" id="vib-val">1.24 <small>g</small></div>
+        <div class="bar-container"><div class="bar bar-cyan" style="width: 42%;"></div></div>
+      </div>
+
+      <div class="card metric-card">
+        <div class="label">Core Die Temp</div>
+        <div class="value" id="temp-val">41.8 <small>°C</small></div>
+        <div class="bar-container"><div class="bar bar-emerald" style="width: 38%;"></div></div>
+      </div>
+
+      <div class="card metric-card">
+        <div class="label">Supply Bus Voltage</div>
+        <div class="value" id="volt-val">24.18 <small>V</small></div>
+        <div class="bar-container"><div class="bar bar-amber" style="width: 82%;"></div></div>
+      </div>
+
+      <div class="card metric-card">
+        <div class="label">Anomaly Score</div>
+        <div class="value" id="anomaly-val">0.02 <small>Normal</small></div>
+        <div class="bar-container"><div class="bar bar-purple" style="width: 4%;"></div></div>
+      </div>
+
+      <!-- Live Waveform Section -->
+      <div class="card wide-card">
+        <div class="card-header">
+          <h3>Real-Time 3-Axis Accelerometer Stream (BNO085)</h3>
+          <span class="stream-rate">Sampling Rate: 1000 Hz</span>
+        </div>
+        <canvas id="waveform-canvas" width="800" height="180"></canvas>
+      </div>
+
+      <!-- System Log & Controls -->
+      <div class="card log-card">
+        <div class="card-header">
+          <h3>CAN FD Telemetry Packet Log</h3>
+          <button id="clear-btn" class="btn-sm">Clear</button>
+        </div>
+        <div class="log-terminal" id="log-box">
+          <div class="log-line">[00:00:01.120] CAN_ID=0x140 LEN=8 DATA: 02 4A 1B 88 FF 00 12 C4</div>
+          <div class="log-line">[00:00:01.140] IMU_QUAT: w=0.982 x=0.012 y=-0.045 z=0.184</div>
+          <div class="log-line">[00:00:01.160] HEALTH_OK: All transducers calibrated. Loop time: 1.2ms</div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="./js/app.js"></script>
+</body>
+</html>
