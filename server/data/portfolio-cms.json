@@ -1360,7 +1360,15 @@
       "gallery": [
         "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
       ],
-      "cadFiles": [],
+      "cadFiles": [
+        {
+          "id": "cad-1788616143989-9ehory",
+          "name": "Bottom Half.SLDPRT",
+          "format": "SLDPRT",
+          "size": "85.9 KB",
+          "description": "Uploaded CAD Model (SLDPRT)"
+        }
+      ],
       "drawings": [],
       "published": true,
       "featured": true,
