@@ -837,65 +837,6 @@
       "published": true,
       "featured": true,
       "displayOrder": 7
-    },
-    {
-      "id": "proj-1788615099504",
-      "slug": "portfolio",
-      "title": "portfolio",
-      "tagline": "dknf",
-      "description": "dkansfk",
-      "category": "Robotics",
-      "year": "2026",
-      "role": "Lead Mechatronics Engineer",
-      "duration": "3 Months",
-      "organization": "",
-      "team": "Solo",
-      "problem": "",
-      "objective": "",
-      "approach": "",
-      "features": [],
-      "results": [],
-      "technologies": [
-        "C++",
-        "ROS 2",
-        "STM32"
-      ],
-      "programmingLanguages": [
-        "C++",
-        "C",
-        "Python"
-      ],
-      "frameworks": [
-        "ROS 2"
-      ],
-      "hardware": [
-        "STM32 Microcontroller"
-      ],
-      "sensors": [
-        "IMU Sensor"
-      ],
-      "tools": [
-        "SolidWorks",
-        "Logic Analyzer"
-      ],
-      "githubUrl": "",
-      "liveDemoUrl": "",
-      "docsUrl": "",
-      "youtubeUrl": "",
-      "downloadUrl": "",
-      "thumbnail": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=800&h=500&q=80",
-      "gallery": [
-        "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?fit=crop&w=1200&h=800&q=80"
-      ],
-      "hasZip": false,
-      "zipFileName": "",
-      "zipFileSize": 0,
-      "entryPoint": "index.html",
-      "runtimeUrl": "/runtime/portfolio/index.html",
-      "extractedTree": [],
-      "published": true,
-      "featured": true,
-      "displayOrder": 7
     }
   ],
   "mechanicalDesigns": [
@@ -1365,6 +1306,65 @@
       "published": true,
       "featured": false,
       "displayOrder": 6
+    },
+    {
+      "id": "mech-1788615735438",
+      "slug": "b2-test-design",
+      "title": "B2 Test Design",
+      "tagline": "ikdnf",
+      "description": "sdklfh",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [],
+      "drawings": [],
+      "published": true,
+      "featured": true,
+      "displayOrder": 7
     }
   ],
   "skillGroups": [
