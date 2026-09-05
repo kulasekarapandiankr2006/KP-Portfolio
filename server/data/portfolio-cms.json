@@ -1056,11 +1056,11 @@
       "displayOrder": 2
     },
     {
-      "id": "mech-1788607204950",
+      "id": "mech-1788462601473",
       "slug": "bolt",
-      "title": "BOLT",
-      "tagline": "admf",
-      "description": "jdhf",
+      "title": "bolt",
+      "tagline": "kasdnf",
+      "description": "ksdnf",
       "category": "Actuator & Drivetrain",
       "year": "2026",
       "dimensions": "Ø 96 mm x 42 mm length",
@@ -1110,17 +1110,202 @@
       ],
       "cadFiles": [
         {
-          "id": "cad-1788607235503-94qvt2",
-          "name": "Bolt M10.SLDPRT",
+          "id": "cad-Bolt.SLDPRT",
+          "name": "Bolt.SLDPRT",
           "format": "SLDPRT",
           "size": "443.4 KB",
-          "description": "Uploaded CAD Model (SLDPRT)"
+          "description": "Filesystem CAD Model (SLDPRT)"
         }
       ],
       "drawings": [],
       "published": true,
       "featured": false,
       "displayOrder": 3
+    },
+    {
+      "id": "mech-1788466834565",
+      "slug": "key",
+      "title": "key",
+      "tagline": "asdhf",
+      "description": "adsknf",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [],
+      "drawings": [],
+      "published": false,
+      "featured": false,
+      "displayOrder": 4
+    },
+    {
+      "id": "mech-1788467031961",
+      "slug": "key",
+      "title": "key",
+      "tagline": "dsklfh",
+      "description": "skldf",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [
+        {
+          "id": "cad-Key.SLDPRT",
+          "name": "Key.SLDPRT",
+          "format": "SLDPRT",
+          "size": "54.2 KB",
+          "description": "Filesystem CAD Model (SLDPRT)"
+        }
+      ],
+      "drawings": [],
+      "published": true,
+      "featured": false,
+      "displayOrder": 5
+    },
+    {
+      "id": "mech-1788473317946",
+      "slug": "taper",
+      "title": "taper",
+      "tagline": "skdf",
+      "description": "sdkfn",
+      "category": "Actuator & Drivetrain",
+      "year": "2026",
+      "dimensions": "Ø 96 mm x 42 mm length",
+      "weight": "485 grams",
+      "materials": [
+        "Aircraft Aluminum 7075-T6",
+        "Hardened Tool Steel O1"
+      ],
+      "manufacturingMethods": [
+        "CNC 4-Axis Milling",
+        "Wire EDM"
+      ],
+      "tolerances": "ISO 2768-f, Bearing seats: k5/h6",
+      "cadSoftware": [
+        "SolidWorks 2024"
+      ],
+      "simulationSoftware": [
+        "ANSYS Workbench FEA"
+      ],
+      "problem": "",
+      "solution": "",
+      "keyFeatures": [],
+      "feaResults": "",
+      "specifications": [
+        {
+          "label": "Reduction Ratio",
+          "value": "6:1",
+          "unit": "",
+          "category": "Kinematics"
+        },
+        {
+          "label": "Peak Torque",
+          "value": "48.0",
+          "unit": "Nm",
+          "category": "Performance"
+        },
+        {
+          "label": "Backlash",
+          "value": "< 1.2",
+          "unit": "arcmin",
+          "category": "Kinematics"
+        }
+      ],
+      "thumbnail": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=800&h=500&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1581092335397-9583fe92d232?fit=crop&w=1200&h=800&q=80"
+      ],
+      "cadFiles": [],
+      "drawings": [],
+      "published": true,
+      "featured": false,
+      "displayOrder": 6
     }
   ],
   "skillGroups": [
