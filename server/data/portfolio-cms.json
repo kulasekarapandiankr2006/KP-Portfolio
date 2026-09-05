@@ -14,7 +14,7 @@
     "email": "contact@kulasekarapandian.com",
     "phone": "+94 77 123 4567",
     "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=600&h=600&q=80",
-    "resumeUrl": "/resume.pdf",
+    "resumeUrl": "/api/resume",
     "githubUrl": "https://github.com/kulasekarapandiankr2006",
     "linkedinUrl": "https://www.linkedin.com/in/kulasekara-pandian-k-r/",
     "youtubeUrl": "",
