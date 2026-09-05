@@ -1407,6 +1407,16 @@ body {
 
 seedInitialProjects();
 
+// Serve the built React/Vite frontend
+const DIST_DIR = path.resolve(__dirname, '..', 'dist');
+
+app.use(express.static(DIST_DIR));
+
+// SPA fallback for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(DIST_DIR, 'index.html'));
+});
+
 // Start Server
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`====================================================`);
