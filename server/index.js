@@ -4,6 +4,12 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  uploadToB2,
+  getFromB2,
+  deleteFromB2,
+  listB2Files,
+} from './services/b2StorageService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +35,7 @@ ensureDir(MECH_STORAGE_DIR);
 // CMS JSON data file (authoritative persistence layer)
 const CMS_DATA_DIR = path.resolve(__dirname, 'data');
 const CMS_DATA_FILE = path.resolve(CMS_DATA_DIR, 'portfolio-cms.json');
+const B2_CMS_KEY = 'cms/portfolio-cms.json';
 
 function loadCmsData() {
   try {
@@ -43,67 +50,6 @@ function loadCmsData() {
     console.warn('[CMS] Failed to load portfolio-cms.json, will return null:', err.message);
   }
   return null;
-}
-
-function saveCmsData(data) {
-  ensureDir(CMS_DATA_DIR);
-  fs.writeFileSync(CMS_DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
-}
-async function syncCmsDataToGitHub(data) {
-  const token = process.env.GITHUB_TOKEN;
-  const owner = process.env.GITHUB_OWNER;
-  const repo = process.env.GITHUB_REPO;
-  const branch = process.env.GITHUB_BRANCH || 'main';
-
-  if (!token || !owner || !repo) {
-    console.warn('[GitHub] Sync skipped: GitHub environment variables are missing.');
-    return;
-  }
-
-  const filePath = 'server/data/portfolio-cms.json';
-  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-
-  const headers = {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-    'Content-Type': 'application/json',
-  };
-
-  let sha;
-
-  const existing = await fetch(`${apiUrl}?ref=${encodeURIComponent(branch)}`, {
-    headers,
-  });
-
-  if (existing.ok) {
-    const existingData = await existing.json();
-    sha = existingData.sha;
-  } else if (existing.status !== 404) {
-    throw new Error(`GitHub file lookup failed: ${existing.status}`);
-  }
-
-  const content = Buffer
-    .from(JSON.stringify(data, null, 2), 'utf8')
-    .toString('base64');
-
-  const response = await fetch(apiUrl, {
-    method: 'PUT',
-    headers,
-    body: JSON.stringify({
-      message: 'Update portfolio CMS data',
-      content,
-      branch,
-      ...(sha ? { sha } : {}),
-    }),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`GitHub sync failed: ${response.status} ${errorText}`);
-  }
-
-  console.log('[GitHub] CMS data synced successfully.');
 }
 
 // Safe slug validation helper
@@ -178,15 +124,34 @@ const MIME_TYPES = {
 // ============================================================================
 
 // GET /api/cms/data — load full portfolio database from server filesystem
-app.get('/api/cms/data', (req, res) => {
+app.get('/api/cms/data', async (req, res) => {
   try {
-    const data = loadCmsData();
-    if (data) {
-      res.json({ found: true, data });
-    } else {
-      // No file yet — client will send initialData to seed the server
-      res.json({ found: false, data: null });
-    }
+    let data = null;
+
+// Try persistent B2 copy first
+try {
+  const result = await getFromB2(B2_CMS_KEY);
+
+  const chunks = [];
+  for await (const chunk of result.Body) {
+    chunks.push(chunk);
+  }
+
+  data = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+} catch (b2Err) {
+  console.warn('[CMS] B2 read failed, using local fallback:', b2Err.message);
+}
+
+// Local filesystem fallback
+if (!data) {
+  data = loadCmsData();
+}
+
+if (data) {
+  res.json({ found: true, data });
+} else {
+  res.json({ found: false, data: null });
+}
   } catch (err) {
     console.error('[CMS] GET error:', err);
     res.status(500).json({ error: 'Failed to load CMS data', message: err.message });
@@ -197,15 +162,29 @@ app.get('/api/cms/data', (req, res) => {
 app.post('/api/cms/data', async (req, res) => {
   try {
     const body = req.body;
+
     if (!body || !body.profile || !Array.isArray(body.projects)) {
       return res.status(400).json({ error: 'Invalid CMS data payload' });
     }
+
+    // Keep local copy temporarily as a safety fallback.
     saveCmsData(body);
-    await syncCmsDataToGitHub(body);
+
+    // Persistent cloud copy in Backblaze B2.
+    await uploadToB2(
+      B2_CMS_KEY,
+      Buffer.from(JSON.stringify(body, null, 2), 'utf8'),
+      'application/json'
+    );
+
+
     res.json({ success: true });
   } catch (err) {
     console.error('[CMS] POST error:', err);
-    res.status(500).json({ error: 'Failed to save CMS data', message: err.message });
+    res.status(500).json({
+      error: 'Failed to save CMS data',
+      message: err.message,
+    });
   }
 });
 
@@ -215,27 +194,91 @@ app.get('/health', (req, res) => {
 });
 
 // --- LIST SYNCED PROJECTS ---
-app.get('/api/runtime/projects', (req, res) => {
+app.get('/api/runtime/projects', async (req, res) => {
   try {
+    // B2-first project discovery
+    const b2Response = await listB2Files('projects/');
+
+    const b2Slugs = [
+      ...new Set(
+        (b2Response.Contents || [])
+          .map(item => item.Key)
+          .filter(Boolean)
+          .map(key => key.replace(/^projects\//, '').split('/')[0])
+          .filter(slug => slug && isValidSlug(slug))
+      ),
+    ];
+
+    if (b2Slugs.length > 0) {
+      return res.json({ projects: b2Slugs });
+    }
+
+    // Local filesystem fallback
     if (!fs.existsSync(STORAGE_DIR)) {
       return res.json({ projects: [] });
     }
+
     const slugs = fs.readdirSync(STORAGE_DIR).filter(item => {
       const p = path.join(STORAGE_DIR, item);
       return fs.statSync(p).isDirectory();
     });
+
     res.json({ projects: slugs });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to list projects', message: err.message });
+    res.status(500).json({
+      error: 'Failed to list projects',
+      message: err.message,
+    });
   }
 });
 
 // --- CHECK IF PROJECT HAS RUNTIME FILES ---
-app.get('/api/runtime/check/:projectSlug', (req, res) => {
-  const { projectSlug } = req.params;
-  const projectRoot = path.join(STORAGE_DIR, projectSlug, 'extracted');
-  const exists = fs.existsSync(projectRoot) && fs.readdirSync(projectRoot).length > 0;
-  res.json({ exists, projectSlug });
+app.get('/api/runtime/check/:projectSlug', async (req, res) => {
+  try {
+    const { projectSlug } = req.params;
+
+    if (!isValidSlug(projectSlug)) {
+      return res.status(400).json({
+        exists: false,
+        error: 'Invalid project slug identifier',
+      });
+    }
+
+    // Check B2 first
+    const b2Response = await listB2Files(`projects/${projectSlug}/`);
+
+    const b2Files = (b2Response.Contents || []).filter(
+      item =>
+        item.Key &&
+        !item.Key.endsWith('/.keep') &&
+        !item.Key.endsWith('/')
+    );
+
+    if (b2Files.length > 0) {
+      return res.json({
+        exists: true,
+        projectSlug,
+        source: 'b2',
+      });
+    }
+
+    // Local filesystem fallback
+    const projectDir = path.join(STORAGE_DIR, projectSlug);
+
+    return res.json({
+      exists: fs.existsSync(projectDir),
+      projectSlug,
+      source: 'local',
+    });
+  } catch (err) {
+    console.error('[Runtime Check] Error:', err);
+
+    return res.status(500).json({
+      exists: false,
+      error: 'Failed to check project',
+      message: err.message,
+    });
+  }
 });
 
 // Helper to recursively scan on-disk directory safely
@@ -313,7 +356,7 @@ function scanDirectoryOnDisk(dirPath, rootDir, currentDepth = 0) {
 }
 
 // --- CREATE PROJECT DIRECTORY ON DISK ---
-app.post('/api/runtime/create-project', (req, res) => {
+app.post('/api/runtime/create-project', async (req, res) => {
   try {
     const slug = req.body?.slug || req.query?.slug;
     if (!isValidSlug(slug)) {
@@ -322,6 +365,12 @@ app.post('/api/runtime/create-project', (req, res) => {
 
     const projectDir = path.resolve(STORAGE_DIR, slug);
     ensureDir(projectDir);
+
+    await uploadToB2(
+  `projects/${slug}/.keep`,
+  Buffer.alloc(0),
+  'application/octet-stream'
+);
 
     res.json({
       success: true,
@@ -337,12 +386,66 @@ app.post('/api/runtime/create-project', (req, res) => {
 
 // --- SCAN LOCAL ON-DISK PROJECT DIRECTORY ---
 // Supports files placed directly in projects/<slug>/ or nested (e.g. landing/ or legacy extracted/)
-app.get('/api/runtime/scan/:projectSlug', (req, res) => {
+app.get('/api/runtime/scan/:projectSlug', async (req, res) => {
   try {
     const { projectSlug } = req.params;
     if (!isValidSlug(projectSlug)) {
       return res.status(400).json({ error: 'Invalid project slug identifier' });
     }
+    const b2Prefix = `projects/${projectSlug}/`;
+
+const b2Result = await listB2Files(b2Prefix);
+
+const b2Files = (b2Result.Contents || []).filter(
+  item =>
+    item.Key &&
+    !item.Key.endsWith('/.keep') &&
+    !item.Key.endsWith('/')
+);
+
+if (b2Files.length > 0) {
+  const fileTree = b2Files.map(item => {
+    const relativePath = item.Key.slice(b2Prefix.length);
+    const name = relativePath.split('/').pop();
+    const ext = name.includes('.') ? name.split('.').pop() : undefined;
+    const isIndex =
+      name.toLowerCase() === 'index.html' ||
+      name.toLowerCase() === 'index.htm';
+
+    return {
+      name,
+      path: relativePath,
+      type: 'file',
+      size: item.Size || 0,
+      extension: ext,
+      isEntryCandidate: isIndex,
+    };
+  });
+
+  const indexCandidates = fileTree
+    .filter(file => file.isEntryCandidate)
+    .map(file => file.path);
+
+  const recommendedEntryPoint = [...indexCandidates].sort(
+    (a, b) => a.split('/').length - b.split('/').length
+  )[0] || '';
+
+  const totalSize = b2Files.reduce(
+    (sum, item) => sum + (item.Size || 0),
+    0
+  );
+
+  return res.json({
+    exists: true,
+    projectSlug,
+    diskPath: path.resolve(STORAGE_DIR, projectSlug),
+    totalFiles: b2Files.length,
+    totalSize,
+    detectedIndexFiles: indexCandidates,
+    recommendedEntryPoint,
+    fileTree,
+  });
+}
 
     const projectDir = path.resolve(STORAGE_DIR, projectSlug);
 
@@ -452,21 +555,271 @@ app.post('/api/runtime/sync/:projectSlug', (req, res) => {
 });
 
 // --- DELETE PROJECT RUNTIME ---
-app.delete('/api/runtime/:projectSlug', (req, res) => {
+app.delete('/api/runtime/:projectSlug', async (req, res) => {
   try {
     const { projectSlug } = req.params;
+
+    if (!isValidSlug(projectSlug)) {
+      return res.status(400).json({ error: 'Invalid project slug identifier' });
+    }
+
+    // Delete all B2 objects for this project
+    const b2Prefix = `projects/${projectSlug}/`;
+    const b2Response = await listB2Files(b2Prefix);
+
+    const b2Objects = (b2Response.Contents || [])
+      .map(item => item.Key)
+      .filter(Boolean);
+
+    for (const key of b2Objects) {
+      await deleteFromB2(key);
+    }
+
+    // Delete local copy as fallback/cleanup
     const projectDir = path.join(STORAGE_DIR, projectSlug);
+
     if (fs.existsSync(projectDir)) {
       fs.rmSync(projectDir, { recursive: true, force: true });
     }
-    res.json({ success: true, deleted: projectSlug });
+
+    res.json({
+      success: true,
+      message: `Project '${projectSlug}' deleted successfully`,
+      deletedB2Objects: b2Objects.length,
+    });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to delete project runtime', message: err.message });
+    console.error('[Runtime Delete] Error:', err);
+    res.status(500).json({
+      error: 'Failed to delete project',
+      message: err.message,
+    });
   }
 });
+function getB2RuntimeKey(projectSlug, relativePath) {
+  const cleanSlug = String(projectSlug || '').trim();
+  const cleanPath = String(relativePath || '').replace(/\\/g, '/').replace(/^\/+/, '');
 
+  if (!isValidSlug(cleanSlug) || !cleanPath || cleanPath.includes('..')) {
+    return null;
+  }
+
+  return `projects/${cleanSlug}/${cleanPath}`;
+}
+
+function getContentTypeForPath(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  return MIME_TYPES[ext] || 'application/octet-stream';
+}
+// --- B2-FIRST PROJECT RUNTIME ---
+app.use('/runtime/:projectSlug', async (req, res, next) => {
+  const { projectSlug } = req.params;
+
+  if (!isValidSlug(projectSlug)) {
+    return next();
+  }
+
+  try {
+    // req.url is the path remaining after /runtime/:projectSlug
+    let relativePath = decodeURIComponent(req.url.split('?')[0] || '');
+
+    relativePath = relativePath.replace(/^\/+/, '');
+
+    // Prevent path traversal
+    if (
+      relativePath.includes('..') ||
+      relativePath.includes('\\') ||
+      relativePath.includes('\0')
+    ) {
+      return res.status(403).send('Forbidden: Path traversal blocked');
+    }
+
+    const prefix = `projects/${projectSlug}/`;
+
+    // Root project URL: find a suitable index.html in B2
+    if (!relativePath) {
+      const result = await listB2Files(prefix);
+      const objects = result.Contents || [];
+
+      const candidates = [
+        `${prefix}index.html`,
+        `${prefix}landing/index.html`,
+        `${prefix}extracted/index.html`,
+        `${prefix}extracted/landing/index.html`,
+      ];
+
+      const availableKeys = new Set(
+        objects
+          .map(obj => obj.Key)
+          .filter(Boolean)
+      );
+
+      const indexKey = candidates.find(key => availableKeys.has(key));
+
+      if (!indexKey) {
+        return next();
+      }
+
+      relativePath = indexKey.slice(prefix.length);
+    }
+
+    // If URL points to a directory, try its index.html
+    let key = `${prefix}${relativePath}`;
+
+    if (relativePath.endsWith('/')) {
+      const directoryIndexKey = `${key}index.html`;
+
+      try {
+        const indexResult = await getFromB2(directoryIndexKey);
+
+        res.setHeader(
+          'Content-Type',
+          indexResult.ContentType || 'text/html'
+        );
+
+        res.setHeader(
+          'Content-Length',
+          indexResult.ContentLength
+        );
+
+        res.setHeader('Accept-Ranges', 'bytes');
+
+        return indexResult.Body.pipe(res);
+      } catch {
+        return next();
+      }
+    }
+
+    let result;
+
+    try {
+      result = await getFromB2(key, {
+        range: req.headers.range,
+      });
+    } catch {
+      // If the exact file isn't found, try index.html for extensionless paths
+      if (!path.extname(relativePath)) {
+        try {
+          key = `${prefix}${relativePath.replace(/\/+$/, '')}/index.html`;
+
+          result = await getFromB2(key, {
+            range: req.headers.range,
+          });
+        } catch {
+          return next();
+        }
+      } else {
+        return next();
+      }
+    }
+
+    const ext = path.extname(key).toLowerCase();
+
+    const contentType =
+      result.ContentType ||
+      MIME_TYPES[ext] ||
+      'application/octet-stream';
+
+    const headers = {
+      'Content-Type': contentType,
+      'Accept-Ranges': 'bytes',
+    };
+
+    if (result.ContentLength !== undefined) {
+      headers['Content-Length'] = result.ContentLength;
+    }
+
+    if (result.ContentRange) {
+      headers['Content-Range'] = result.ContentRange;
+      res.status(206);
+    } else {
+      res.status(200);
+    }
+
+    res.set(headers);
+
+    return result.Body.pipe(res);
+
+  } catch (err) {
+    console.warn(
+      `[B2 Runtime] Falling back to local runtime for ${projectSlug}:`,
+      err.message
+    );
+
+    return next();
+  }
+});
 // --- RUNTIME STATIC SERVING ROUTE (Supports Range Streaming for .EXE and Media Files) ---
 // Handles GET /runtime/:projectSlug/*
+app.use('/runtime/:projectSlug', async (req, res, next) => {
+  try {
+    const { projectSlug } = req.params;
+
+    if (!isValidSlug(projectSlug)) {
+      return res.status(400).send('Invalid project slug');
+    }
+
+    let relativePath = req.path
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '');
+
+    if (!relativePath) {
+      relativePath = 'index.html';
+    } else if (relativePath.endsWith('/')) {
+      relativePath += 'index.html';
+    }
+
+    if (relativePath.includes('..')) {
+      return res.status(400).send('Invalid runtime path');
+    }
+
+    const key = getB2RuntimeKey(projectSlug, relativePath);
+
+    if (!key) {
+      return res.status(400).send('Invalid runtime path');
+    }
+
+    const range = req.headers.range;
+
+    const result = await getFromB2(key, { range });
+
+    const contentType = getContentTypeForPath(relativePath);
+
+    res.status(range && result.ContentRange ? 206 : 200);
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Accept-Ranges', 'bytes');
+
+    if (result.ContentLength !== undefined) {
+      res.setHeader('Content-Length', result.ContentLength);
+    }
+
+    if (result.ContentRange) {
+      res.setHeader('Content-Range', result.ContentRange);
+    }
+
+    if (result.ETag) {
+      res.setHeader('ETag', result.ETag);
+    }
+
+    if (result.LastModified) {
+      res.setHeader('Last-Modified', result.LastModified.toUTCString());
+    }
+
+    result.Body.pipe(res);
+  } catch (err) {
+    if (
+      err?.name === 'NoSuchKey' ||
+      err?.$metadata?.httpStatusCode === 404
+    ) {
+      // Important during migration:
+      // let the existing local runtime handler try next.
+      return next();
+    }
+
+    console.error('[B2 Runtime] GET error:', err);
+    return res.status(500).send('Failed to load runtime file');
+  }
+});
 app.use('/runtime/:projectSlug', (req, res) => {
   const { projectSlug } = req.params;
 
@@ -658,7 +1011,7 @@ function detectCadFormat(fileName) {
 
 // 1. Initialize mechanical design folders on disk
 // Creates server/data/storage/mechanical-designs/<slug>/files/ and thumbnail/
-app.post('/api/mechanical/init/:slug', (req, res) => {
+app.post('/api/mechanical/init/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
     if (!isValidSlug(slug)) {
@@ -671,6 +1024,18 @@ app.post('/api/mechanical/init/:slug', (req, res) => {
 
     ensureDir(filesDir);
     ensureDir(thumbnailDir);
+
+    await uploadToB2(
+  `mechanical-designs/${slug}/files/.keep`,
+  Buffer.alloc(0),
+  'application/octet-stream'
+);
+
+await uploadToB2(
+  `mechanical-designs/${slug}/thumbnail/.keep`,
+  Buffer.alloc(0),
+  'application/octet-stream'
+);
 
     res.json({
       success: true,
@@ -685,80 +1050,201 @@ app.post('/api/mechanical/init/:slug', (req, res) => {
   }
 });
 
-// 2. Scan mechanical design directory (detects manual placement & admin uploads identically)
-app.get('/api/mechanical/scan/:slug', (req, res) => {
+// 2. Scan mechanical design directory (B2-first, local fallback)
+app.get('/api/mechanical/scan/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
+
     if (!isValidSlug(slug)) {
-      return res.status(400).json({ error: 'Invalid mechanical design slug identifier' });
+      return res.status(400).json({
+        error: 'Invalid mechanical design slug identifier'
+      });
     }
 
     const designDir = path.resolve(MECH_STORAGE_DIR, slug);
     const filesDir = path.join(designDir, 'files');
     const thumbnailDir = path.join(designDir, 'thumbnail');
 
+    // ---------------------------------------------------------
+    // B2 FIRST
+    // ---------------------------------------------------------
+    try {
+      const prefix = `mechanical-designs/${slug}/`;
+      const b2Result = await listB2Files(prefix);
+      const objects = b2Result.Contents || [];
+
+      const cadObjects = objects.filter(item => {
+        const key = item.Key || '';
+        const relative = key.slice(prefix.length);
+
+        return (
+          relative.startsWith('files/') &&
+          !relative.endsWith('/') &&
+          !path.basename(relative).startsWith('.')
+        );
+      });
+
+      const thumbnailObjects = objects.filter(item => {
+        const key = item.Key || '';
+        const relative = key.slice(prefix.length);
+
+        return (
+          relative.startsWith('thumbnail/') &&
+          !relative.endsWith('/') &&
+          /\.(png|jpe?g|webp|svg)$/i.test(relative)
+        );
+      });
+
+      const cadFiles = cadObjects.map(item => {
+        const name = path.basename(item.Key);
+
+        return {
+          id: `cad-${name}`,
+          name,
+          format: detectCadFormat(name),
+          size: formatBytes(item.Size || 0),
+          sizeBytes: item.Size || 0,
+          downloadUrl:
+            `/api/mechanical/${slug}/file/${encodeURIComponent(name)}`
+        };
+      });
+
+      const exactThumbnail = thumbnailObjects.find(item =>
+        path.basename(item.Key).toLowerCase() ===
+        `${slug.toLowerCase()}.png`
+      );
+
+      const thumbnailObject =
+        exactThumbnail ||
+        thumbnailObjects[0] ||
+        null;
+
+      const hasB2Data =
+        cadFiles.length > 0 ||
+        Boolean(thumbnailObject);
+
+      if (hasB2Data) {
+        return res.json({
+          exists: true,
+          slug,
+          cadFiles,
+          hasThumbnail: Boolean(thumbnailObject),
+          thumbnailFileName: thumbnailObject
+            ? path.basename(thumbnailObject.Key)
+            : null,
+          thumbnailUrl: thumbnailObject
+            ? `/api/mechanical/${slug}/thumbnail`
+            : null,
+          filesDir,
+          thumbnailDir,
+          storage: 'b2'
+        });
+      }
+    } catch (b2Err) {
+      console.warn(
+        `[B2 Mechanical Scan] Falling back to local storage for ${slug}:`,
+        b2Err.message
+      );
+    }
+
+    // ---------------------------------------------------------
+    // LOCAL FILESYSTEM FALLBACK
+    // ---------------------------------------------------------
     if (!fs.existsSync(designDir)) {
       return res.json({
         exists: false,
         slug,
         cadFiles: [],
         hasThumbnail: false,
+        thumbnailFileName: null,
         thumbnailUrl: null,
+        filesDir,
+        thumbnailDir,
+        storage: 'local'
       });
     }
 
-    // Scan CAD files in files/
+    // Scan CAD files
     const cadFiles = [];
+
     if (fs.existsSync(filesDir)) {
-      const entries = fs.readdirSync(filesDir, { withFileTypes: true });
+      const entries = fs.readdirSync(filesDir, {
+        withFileTypes: true
+      });
+
       for (const entry of entries) {
         if (entry.isFile() && !entry.name.startsWith('.')) {
           const filePath = path.join(filesDir, entry.name);
           const stat = fs.statSync(filePath);
+
           cadFiles.push({
             id: `cad-${entry.name}`,
             name: entry.name,
             format: detectCadFormat(entry.name),
             size: formatBytes(stat.size),
             sizeBytes: stat.size,
-            downloadUrl: `/api/mechanical/${slug}/file/${encodeURIComponent(entry.name)}`,
+            downloadUrl:
+              `/api/mechanical/${slug}/file/${encodeURIComponent(entry.name)}`
           });
         }
       }
     }
 
-    // Scan thumbnail in thumbnail/ (looks for <slug>.png, or any valid image file)
+    // Scan thumbnail
     let hasThumbnail = false;
     let thumbnailFileName = null;
+
     if (fs.existsSync(thumbnailDir)) {
-      const tEntries = fs.readdirSync(thumbnailDir, { withFileTypes: true });
-      // Prioritize <slug>.png
-      const exactPng = tEntries.find(e => e.isFile() && e.name.toLowerCase() === `${slug.toLowerCase()}.png`);
-      const imgEntry = exactPng || tEntries.find(e => e.isFile() && /\.(png|jpe?g|webp|svg)$/i.test(e.name));
+      const tEntries = fs.readdirSync(thumbnailDir, {
+        withFileTypes: true
+      });
+
+      const exactPng = tEntries.find(
+        entry =>
+          entry.isFile() &&
+          entry.name.toLowerCase() === `${slug.toLowerCase()}.png`
+      );
+
+      const imgEntry =
+        exactPng ||
+        tEntries.find(
+          entry =>
+            entry.isFile() &&
+            /\.(png|jpe?g|webp|svg)$/i.test(entry.name)
+        );
+
       if (imgEntry) {
         hasThumbnail = true;
         thumbnailFileName = imgEntry.name;
       }
     }
 
-    res.json({
+    return res.json({
       exists: true,
       slug,
       cadFiles,
       hasThumbnail,
       thumbnailFileName,
-      thumbnailUrl: hasThumbnail ? `/api/mechanical/${slug}/thumbnail` : null,
+      thumbnailUrl: hasThumbnail
+        ? `/api/mechanical/${slug}/thumbnail`
+        : null,
       filesDir,
       thumbnailDir,
+      storage: 'local'
     });
+
   } catch (err) {
     console.error('Error scanning mechanical design:', err);
-    res.status(500).json({ error: 'Failed to scan mechanical design', message: err.message });
+
+    return res.status(500).json({
+      error: 'Failed to scan mechanical design',
+      message: err.message
+    });
   }
 });
 
 // 3. Upload CAD file directly into mechanical-designs/<slug>/files/
-app.post('/api/mechanical/upload-cad/:slug', (req, res) => {
+app.post('/api/mechanical/upload-cad/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
     if (!isValidSlug(slug)) {
@@ -787,6 +1273,11 @@ app.post('/api/mechanical/upload-cad/:slug', (req, res) => {
     const base64Data = fileContent.replace(/^data:.*?;base64,/, '').replace(/^base64:/, '');
     const buffer = Buffer.from(base64Data, 'base64');
     fs.writeFileSync(targetPath, buffer);
+    await uploadToB2(
+  `mechanical-designs/${slug}/files/${cleanFileName}`,
+  buffer,
+  MIME_TYPES[path.extname(cleanFileName).toLowerCase()] || 'application/octet-stream'
+);
 
     res.json({
       success: true,
@@ -802,7 +1293,7 @@ app.post('/api/mechanical/upload-cad/:slug', (req, res) => {
 });
 
 // 4. Download CAD file from mechanical-designs/<slug>/files/<filename>
-app.get('/api/mechanical/:slug/file/:filename', (req, res) => {
+app.get('/api/mechanical/:slug/file/:filename', async (req, res) => {
   try {
     const { slug, filename } = req.params;
     if (!isValidSlug(slug)) {
@@ -817,9 +1308,38 @@ app.get('/api/mechanical/:slug/file/:filename', (req, res) => {
       return res.status(403).send('Forbidden: Path traversal blocked');
     }
 
-    if (!fs.existsSync(targetPath) || fs.statSync(targetPath).isDirectory()) {
-      return res.status(404).send('CAD file not found');
-    }
+    try {
+  const result = await getFromB2(
+    `mechanical-designs/${slug}/files/${cleanFileName}`
+  );
+
+  const ext = path.extname(cleanFileName).toLowerCase();
+  const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+  res.writeHead(200, {
+    'Content-Type': contentType,
+    'Content-Disposition': `attachment; filename="${cleanFileName}"`,
+    ...(result.ContentLength !== undefined
+      ? { 'Content-Length': result.ContentLength }
+      : {}),
+  });
+
+  result.Body.pipe(res);
+  return;
+} catch (b2Err) {
+  if (
+    b2Err?.name !== 'NoSuchKey' &&
+    b2Err?.$metadata?.httpStatusCode !== 404
+  ) {
+    console.error('B2 CAD download error:', b2Err);
+    return res.status(500).send('Failed to download CAD file');
+  }
+}
+
+// B2 object not found → temporary local fallback
+if (!fs.existsSync(targetPath) || fs.statSync(targetPath).isDirectory()) {
+  return res.status(404).send('CAD file not found');
+}
 
     const stat = fs.statSync(targetPath);
     const ext = path.extname(cleanFileName).toLowerCase();
@@ -840,7 +1360,7 @@ app.get('/api/mechanical/:slug/file/:filename', (req, res) => {
 });
 
 // 5. Delete CAD file from mechanical-designs/<slug>/files/<filename>
-app.delete('/api/mechanical/:slug/file/:filename', (req, res) => {
+app.delete('/api/mechanical/:slug/file/:filename', async (req, res) => {
   try {
     const { slug, filename } = req.params;
     if (!isValidSlug(slug)) return res.status(400).json({ error: 'Invalid slug identifier' });
@@ -852,6 +1372,9 @@ app.delete('/api/mechanical/:slug/file/:filename', (req, res) => {
     if (!targetPath.startsWith(filesDir + path.sep)) {
       return res.status(403).json({ error: 'Forbidden: Path traversal blocked' });
     }
+    await deleteFromB2(
+  `mechanical-designs/${slug}/files/${cleanFileName}`
+);
 
     if (fs.existsSync(targetPath)) {
       fs.unlinkSync(targetPath);
@@ -864,7 +1387,7 @@ app.delete('/api/mechanical/:slug/file/:filename', (req, res) => {
 });
 
 // 6. Upload Thumbnail directly to mechanical-designs/<slug>/thumbnail/<slug>.png
-app.post('/api/mechanical/upload-thumbnail/:slug', (req, res) => {
+app.post('/api/mechanical/upload-thumbnail/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
     if (!isValidSlug(slug)) return res.status(400).json({ error: 'Invalid slug identifier' });
@@ -880,6 +1403,14 @@ app.post('/api/mechanical/upload-thumbnail/:slug', (req, res) => {
     const buffer = Buffer.from(base64Data, 'base64');
     fs.writeFileSync(targetPath, buffer);
 
+    console.log('[B2 Thumbnail] Uploading:', slug, 'Size:', buffer.length);
+
+    await uploadToB2(
+  `mechanical-designs/${slug}/thumbnail/${slug}.png`,
+  buffer,
+  'image/png'
+);
+
     res.json({
       success: true,
       slug,
@@ -892,15 +1423,41 @@ app.post('/api/mechanical/upload-thumbnail/:slug', (req, res) => {
 });
 
 // 7. Serve Thumbnail from mechanical-designs/<slug>/thumbnail/<slug>.png
-app.get('/api/mechanical/:slug/thumbnail', (req, res) => {
+app.get('/api/mechanical/:slug/thumbnail', async (req, res) => {
   try {
     const { slug } = req.params;
     if (!isValidSlug(slug)) return res.status(400).send('Invalid slug identifier');
 
-    const thumbnailDir = path.resolve(MECH_STORAGE_DIR, slug, 'thumbnail');
-    if (!fs.existsSync(thumbnailDir)) {
-      return res.status(404).send('Thumbnail not found');
-    }
+    const b2Prefix = `mechanical-designs/${slug}/thumbnail/`;
+
+const b2List = await listB2Files(b2Prefix);
+const b2Thumbnail = b2List.Contents?.find(
+  item =>
+    item.Key &&
+    !item.Key.endsWith('/.keep') &&
+    /\.(png|jpe?g|webp|svg)$/i.test(item.Key)
+);
+
+if (b2Thumbnail?.Key) {
+  const result = await getFromB2(b2Thumbnail.Key);
+
+  const ext = path.extname(b2Thumbnail.Key).toLowerCase();
+  const contentType = MIME_TYPES[ext] || 'image/png';
+
+  res.writeHead(200, {
+    'Content-Type': contentType,
+    'Content-Length': result.ContentLength,
+    'Cache-Control': 'no-cache',
+  });
+
+  return result.Body.pipe(res);
+}
+
+const thumbnailDir = path.resolve(MECH_STORAGE_DIR, slug, 'thumbnail');
+
+if (!fs.existsSync(thumbnailDir)) {
+  return res.status(404).send('Thumbnail not found');
+}
 
     // Check <slug>.png first, then any image
     let targetImg = path.join(thumbnailDir, `${slug}.png`);
@@ -1411,7 +1968,24 @@ seedInitialProjects();
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
 app.use(express.static(DIST_DIR));
+// Resume download from persistent B2 storage
+app.get('/api/resume', async (req, res) => {
+  try {
+    const result = await getFromB2('resume/resume.pdf');
 
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="resume.pdf"');
+
+    if (result.ContentLength !== undefined) {
+      res.setHeader('Content-Length', result.ContentLength);
+    }
+
+    result.Body.pipe(res);
+  } catch (err) {
+    console.error('[B2 Resume] GET error:', err);
+    return res.status(404).send('Resume not found');
+  }
+});
 // SPA fallback for React Router
 app.get('*', (req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'));
