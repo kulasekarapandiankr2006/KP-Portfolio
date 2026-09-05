@@ -1,6 +1,6 @@
 import type { ExtractedFileNode } from '../types/project';
 
-const RUNTIME_HOST = 'http://localhost:5000';
+const RUNTIME_HOST = import.meta.env.DEV ? 'http://localhost:5000' : '';
 
 export interface RuntimeHealthResponse {
   status: 'ok' | 'error';
