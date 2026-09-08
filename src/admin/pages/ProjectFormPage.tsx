@@ -255,7 +255,7 @@ export const ProjectFormPage: React.FC = () => {
             size="md"
             icon={<Save className="w-4 h-4" />}
           >
-            {isEditMode ? 'Update Project' : 'Save & Publish'}
+            {isEditMode ? 'Save Project Changes' : 'Save Project'}
           </Button>
         </div>
       </div>
@@ -263,7 +263,7 @@ export const ProjectFormPage: React.FC = () => {
       {successToast && (
         <div className="p-4 rounded-xl bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-xs font-mono flex items-center gap-2 animate-fadeIn">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-          <span>Project specification successfully saved to local persistent storage!</span>
+          <span>Project specification successfully saved to cloud storage!</span>
         </div>
       )}
 
@@ -846,7 +846,7 @@ export const ProjectFormPage: React.FC = () => {
           size="lg"
           icon={<Save className="w-5 h-5" />}
         >
-          {isEditMode ? 'Update Project Specification' : 'Save & Publish Project'}
+          {isEditMode ? 'Save Project Changes' : 'Save Project'}
         </Button>
       </div>
     </form>

@@ -28,8 +28,8 @@ import {
 
 const ADMIN_NAV_ITEMS = [
   { path: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { path: '/admin/projects', label: 'Projects Manager', icon: FolderKanban, highlight: true },
-  { path: '/admin/mechanical', label: 'Mechanical CAD', icon: Cog, highlight: true },
+  { path: '/admin/projects', label: 'Projects Manager', icon: FolderKanban },
+  { path: '/admin/mechanical', label: 'Mechanical CAD', icon: Cog },
   { path: '/admin/profile', label: 'Profile & Hero', icon: User },
   { path: '/admin/about', label: 'About & Focus', icon: FileText },
   { path: '/admin/experience', label: 'Experience', icon: Briefcase },
@@ -131,14 +131,11 @@ export const AdminLayout: React.FC = () => {
                     isActive
                       ? 'bg-engineering-blue/20 text-white font-semibold border border-engineering-blue/40 shadow-sm'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                  } ${item.highlight ? 'relative' : ''}`
+                  }`
                 }
               >
                 <Icon className="w-4 h-4 flex-shrink-0" />
                 <span className="truncate">{item.label}</span>
-                {item.highlight && (
-                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                )}
               </NavLink>
             );
           })}

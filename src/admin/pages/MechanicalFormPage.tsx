@@ -232,7 +232,7 @@ export const MechanicalFormPage: React.FC = () => {
             size="md"
             icon={<Save className="w-4 h-4" />}
           >
-            {isEditMode ? 'Update CAD Design' : 'Save & Publish Model'}
+            {isEditMode ? 'Save CAD Changes' : 'Save Mechanical Design'}
           </Button>
         </div>
       </div>
@@ -240,7 +240,7 @@ export const MechanicalFormPage: React.FC = () => {
       {successToast && (
         <div className="p-4 rounded-xl bg-emerald-950 border border-emerald-500/50 text-emerald-300 text-xs font-mono flex items-center gap-2 animate-fadeIn">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-          <span>Mechanical CAD specification saved to local persistent storage!</span>
+          <span>Mechanical CAD specification saved to cloud storage!</span>
         </div>
       )}
 
@@ -706,7 +706,7 @@ export const MechanicalFormPage: React.FC = () => {
           size="lg"
           icon={<Save className="w-5 h-5" />}
         >
-          {isEditMode ? 'Update CAD Model Specification' : 'Save & Publish CAD Model'}
+          {isEditMode ? 'Save CAD Changes' : 'Save Mechanical Design'}
         </Button>
       </div>
     </form>

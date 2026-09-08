@@ -66,14 +66,6 @@ function applyMigrations(parsed: PortfolioDatabase): { data: PortfolioDatabase; 
     });
   }
 
-  if (!parsed.projects.some(p => p.slug === 're-sensor-iq')) {
-    const reSensor = initialPortfolioData.projects.find(p => p.slug === 're-sensor-iq');
-    if (reSensor) {
-      parsed.projects.unshift(reSensor);
-      modified = true;
-    }
-  }
-
   return { data: parsed, modified };
 }
 
