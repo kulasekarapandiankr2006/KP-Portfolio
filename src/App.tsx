@@ -6,6 +6,10 @@ import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { ScrollProgress } from './components/layout/ScrollProgress';
 import { CursorGlow } from './components/layout/CursorGlow';
+import { CustomCursor } from './components/layout/CustomCursor';
+import { Preloader } from './components/layout/Preloader';
+import { ToastContainer } from './components/common/Toast';
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 
 // Public Pages
 import { HomePage } from './pages/HomePage';
@@ -43,12 +47,20 @@ const AppLayout: React.FC = () => {
   const isLoginPage = location.pathname === '/admin/login' || location.pathname === '/login';
   const showPublicHeaderFooter = !isAdminRoute && !isRuntimePage && !isLoginPage;
 
+  // Initialize Lenis smooth scroll on public portfolio pages
+  useSmoothScroll(showPublicHeaderFooter);
+
   return (
     <div className="min-h-screen bg-background text-slate-100 flex flex-col font-sans">
+      {/* Toast notifications container */}
+      <ToastContainer />
+
       {/* Global UI chrome — only on public pages */}
       {showPublicHeaderFooter && (
         <>
+          <Preloader />
           <div id="scroll-progress" aria-hidden="true" />
+          <CustomCursor />
           <CursorGlow />
           <Navbar />
         </>
